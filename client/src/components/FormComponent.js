@@ -64,7 +64,7 @@ const FormComponent = () => {
 
     setLoading1(true);
 
-    const { data } = await axios.post("http://localhost:5001/api/applyform", formData);
+    const { data } = await axios.post("http://localhost:5002/api/forms/applyForm", formData);
     if (data.success) {
       toast.success("Form submitted successfully");
     } else {
