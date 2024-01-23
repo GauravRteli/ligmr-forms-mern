@@ -50,8 +50,7 @@ router.post("/applyForm", async (req, res) => {
     </html>
     `;
     await sendMail(
-      // "harshvardhan@egniol.in",
-      "gauravteli134@gmail.com",
+      "harshvardhan@egniol.in",
       "New Student Enquiry",
       emailTemplate
     );
