@@ -25,6 +25,9 @@ router.post("/applyForm", async (req, res) => {
     <p>A new student enquiry form has been submitted with the following details:</p>
     <ul>
     <li>Name: ${studentData.name}</li>
+    <li>Phone No.: ${studentData.phoneNo}</li>
+    <li>Email: ${studentData.email}</li>
+    <li>City: ${studentData.city}</li>
     <li>User Type: ${studentData.userType}</li>
     <li>Father's Occupation: ${studentData.fatherOccupation}</li>
     <li>Qualification: ${studentData.qualification}</li>
@@ -48,7 +51,6 @@ router.post("/applyForm", async (req, res) => {
     `;
     await sendMail(
       "harshvardhan@egniol.in",
-      // "gauravteli134@gmail.com",
       "New Student Enquiry",
       emailTemplate
     );
