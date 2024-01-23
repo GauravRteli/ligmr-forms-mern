@@ -9,6 +9,10 @@ router.post("/applyForm", async (req, res) => {
     const collection = db.collection("posts");
     const result = await collection.insertOne(req.body);
     const studentData = req.body;
+    let des = "";
+    studentData?.destinationPreferences?.map((item) => {
+      des += item + ",";
+    });
     const emailTemplate = `
     <!DOCTYPE html>
     <html>
