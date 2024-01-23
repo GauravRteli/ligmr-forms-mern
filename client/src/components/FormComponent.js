@@ -421,70 +421,70 @@ const FormComponent = () => {
             </FormControl>
 
             <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
-                <FormControl fullWidth margin="normal">
-                  <InputLabel htmlFor="careerFieldInterest">
-                    Career Field Interest *
-                  </InputLabel>
-                  <Select
-                    label="Career Field Interest *"
-                    value={formData.careerFieldInterest}
-                    onChange={handleChange}
-                    inputProps={{
-                      name: "careerFieldInterest",
-                      id: "careerFieldInterest",
-                    }}
-                    required
-                  >
-                    <MenuItem value="Business/Management">
-                      Business/Management
-                    </MenuItem>
-                    <MenuItem value="Technology">Technology</MenuItem>
-                    <MenuItem value="Finance">Finance</MenuItem>
-                    <MenuItem value="Marketing">Marketing</MenuItem>
-                    <MenuItem value="Other">Other</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl fullWidth margin="normal">
-                  <InputLabel htmlFor="admissionCounseling">
-                    Available for Admission Counselling Session *
-                  </InputLabel>
-                  <Select
-                    label="Available for Admission Counselling Session *"
-                    value={formData.admissionCounseling}
-                    onChange={handleChange}
-                    inputProps={{
-                      name: "admissionCounseling",
-                      id: "admissionCounseling",
-                    }}
-                    required
-                  >
-                    <MenuItem value="Today">Today</MenuItem>
-                    <MenuItem value="Tomorrow">Tomorrow</MenuItem>
-                  </Select>
-                </FormControl>
-                <FormControl fullWidth margin="normal">
-                  <InputLabel htmlFor="careerAspirations">
-                    Career Aspirations Post-Study *
-                  </InputLabel>
-                  <Select
-                    label="Career Aspirations Post-Study *"
-                    value={formData.careerAspirations}
-                    onChange={handleChange}
-                    inputProps={{
-                      name: "careerAspirations",
-                      id: "careerAspirations",
-                    }}
-                    required
-                  >
-                    <MenuItem value="In France">In France</MenuItem>
-                    <MenuItem value="In my Home Country">
-                      In my Home Country
-                    </MenuItem>
-                    <MenuItem value="In another European Country">
-                      In another European Country
-                    </MenuItem>
-                  </Select>
-                </FormControl>
+              <FormControl fullWidth margin="normal">
+                <InputLabel htmlFor="careerFieldInterest">
+                  Career Field Interest *
+                </InputLabel>
+                <Select
+                  label="Career Field Interest *"
+                  value={formData.careerFieldInterest}
+                  onChange={handleChange}
+                  inputProps={{
+                    name: "careerFieldInterest",
+                    id: "careerFieldInterest",
+                  }}
+                  required
+                >
+                  <MenuItem value="Business/Management">
+                    Business/Management
+                  </MenuItem>
+                  <MenuItem value="Technology">Technology</MenuItem>
+                  <MenuItem value="Finance">Finance</MenuItem>
+                  <MenuItem value="Marketing">Marketing</MenuItem>
+                  <MenuItem value="Other">Other</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <InputLabel htmlFor="admissionCounseling">
+                  Available for Admission Counselling Session *
+                </InputLabel>
+                <Select
+                  label="Available for Admission Counselling Session *"
+                  value={formData.admissionCounseling}
+                  onChange={handleChange}
+                  inputProps={{
+                    name: "admissionCounseling",
+                    id: "admissionCounseling",
+                  }}
+                  required
+                >
+                  <MenuItem value="Today">Today</MenuItem>
+                  <MenuItem value="Tomorrow">Tomorrow</MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <InputLabel htmlFor="careerAspirations">
+                  Career Aspirations Post-Study *
+                </InputLabel>
+                <Select
+                  label="Career Aspirations Post-Study *"
+                  value={formData.careerAspirations}
+                  onChange={handleChange}
+                  inputProps={{
+                    name: "careerAspirations",
+                    id: "careerAspirations",
+                  }}
+                  required
+                >
+                  <MenuItem value="In France">In France</MenuItem>
+                  <MenuItem value="In my Home Country">
+                    In my Home Country
+                  </MenuItem>
+                  <MenuItem value="In another European Country">
+                    In another European Country
+                  </MenuItem>
+                </Select>
+              </FormControl>
             </div>
 
             <Button
