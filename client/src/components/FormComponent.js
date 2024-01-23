@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { Spin } from "antd";
-
+import logo from "../assets/logo.png";
 import bgImage from "../bgimages.jpg";
 
 import {
@@ -99,18 +99,38 @@ const FormComponent = () => {
   };
   const [loading1, setLoading1] = useState(false);
   return (
-    <div className="min-h-screen flex items-center justify-center" style={{
-      backgroundImage: `url(${bgImage})`,
-      backgroundSize: "cover",
-      backgroundPosition: "center",
-    }}>
-      <Container maxWidth="md">
+    <div
+      className="min-h-screen flex items-center justify-center"
+      style={{
+        backgroundImage: `url(${bgImage})`,
+        backgroundSize: "cover",
+        backgroundPosition: "center",
+      }}
+    >
+      <Container maxWidth="md" className="m-3 ">
         <Toaster />
-        <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
-          <h1 className="font-semibold text-2xl text-center m-5">
+        <Paper
+          elevation={3}
+          style={{
+            padding: "20px",
+            marginTop: "20px",
+            backgroundColor: "#f1f5f9",
+          }}
+        >
+          <h1 className="font-bold text-2xl text-center m-5">
             Fill the required fields
           </h1>
-          <form onSubmit={handleSubmit}>
+          <form
+            onSubmit={handleSubmit}
+            className="relative "
+            style={{
+              backgroundImage: `url(${logo})`,
+              backgroundPosition: "center",
+              backgroundSize: "60% cover",
+              backgroundRepeat: "no-repeat",
+            }}
+          >
+            <div className="absolute inset-0 bg-slate-100 bg-opacity-85"></div>
             <div>
               <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
                 <TextField
