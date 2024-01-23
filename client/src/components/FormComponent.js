@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { Spin } from "antd";
@@ -64,7 +63,10 @@ const FormComponent = () => {
 
     setLoading1(true);
 
-    const { data } = await axios.post("http://localhost:5002/api/forms/applyForm", formData);
+    const { data } = await axios.post(
+      "https://ligmr-form-admission.onrender.com/api/forms/applyForm",
+      formData
+    );
     if (data.success) {
       toast.success("Form submitted successfully");
     } else {
