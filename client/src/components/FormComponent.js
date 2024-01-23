@@ -1,6 +1,9 @@
 import React, { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { Spin } from "antd";
+
+import bgImage from "../bgimages.jpg";
+
 import {
   Container,
   Paper,
@@ -96,7 +99,11 @@ const FormComponent = () => {
   };
   const [loading1, setLoading1] = useState(false);
   return (
-    <div className="min-h-screen flex items-center justify-center">
+    <div className="min-h-screen flex items-center justify-center" style={{
+      backgroundImage: `url(${bgImage})`,
+      backgroundSize: "cover",
+      backgroundPosition: "center",
+    }}>
       <Container maxWidth="md">
         <Toaster />
         <Paper elevation={3} style={{ padding: "20px", marginTop: "20px" }}>
