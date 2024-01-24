@@ -5,7 +5,7 @@ import { MdEmail } from "react-icons/md";
 import { ImSphere } from "react-icons/im";
 const Footer = () => {
   return (
-    <footer className="bg-slate-200 p-2 pb-36">
+    <footer className="bg-slate-200 p-2 pb-36 lg:pb-1 md:pb-1">
       <div className="flex flex-wrap justify-around items-center">
         <div className="mb-3 sm:mb-0 w-full sm:w-auto sm:mr-3">
           <div className="flex items-center">
