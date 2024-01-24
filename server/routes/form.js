@@ -1,10 +1,11 @@
 const express = require("express");
 const router = express.Router();
-const client = require("../db");
+// const client = require("../db");
 const sendMail = require("../helper/mailUtils");
 router.post("/applyForm", async (req, res) => {
+  let client;
   try {
-    client.connect();
+    client = req.dbClient;
     const db = client.db("ligmr-form");
     const collection = db.collection("posts");
     const result = await collection.insertOne(req.body);
