@@ -18,12 +18,12 @@ const Header = () => {
         <img src={logo} alt="logo" width={100} height={100} />
       </div>
       <div className="text-center mx-auto">
-        <p className="hidden text-3xl md:block font-thin">
+        <p className="hidden text-3xl md:block font-normal">
           Lyon Institute for Geostrategy & Multicultural Relations
         </p>
         <p
           style={{ marginLeft: "-8rem" }}
-          className="text-3xl -mx-10 md:hidden font-thin"
+          className="text-3xl -mx-10 md:hidden font-normal"
         >
           LIGMR
         </p>
