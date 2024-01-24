@@ -6,9 +6,9 @@ import FormComponent from "./components/FormComponent";
 function App() {
   return (
     <div className="App">
-      {/* <Header /> */}
+      <Header />
       <FormComponent />
-      {/* <Footer /> */}
+      <Footer />
     </div>
   );
 }

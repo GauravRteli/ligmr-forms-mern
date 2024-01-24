@@ -5,10 +5,10 @@ import { MdEmail } from "react-icons/md";
 import { ImSphere } from "react-icons/im";
 const Footer = () => {
   return (
-    <footer className="bg-slate-200 p-2 pb-36 lg:pb-1 md:pb-1">
-      <div className="flex flex-wrap justify-around items-center">
-        <div className="mb-3 sm:mb-0 w-full sm:w-auto sm:mr-3">
-          <div className="flex items-center">
+    <footer className="bg-slate-200 pt-20 pl-20 pr-20 pb-40 md:pb-20">
+      <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="mb-3 flex items-start justify-start lg:justify-center sm:mb-0 w-full sm:w-auto sm:mr-3">
+          <div className="flex items-start space-x-2">
             <div className=" mx-2">
               <FaPhoneAlt className="text-xl" />
             </div>
@@ -24,9 +24,9 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mb-3 sm:mb-0 w-full sm:w-auto sm:mr-3">
+        <div className="mb-3 flex items-start justify-start lg:justify-center sm:mb-0 w-full sm:w-auto sm:mr-3">
           {" "}
-          <div className="flex items-center">
+          <div className="flex items-start space-x-2">
             <div className="mx-2">
               <FaLocationDot className="text-xl" />
             </div>
@@ -43,8 +43,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mb-3 sm:mb-0 w-full sm:w-auto sm:mr-3">
-          <div className="flex items-center">
+        <div className="mb-3 flex items-start justify-start lg:justify-center sm:mb-0 w-full sm:w-auto sm:mr-3">
+          <div className="flex items-start space-x-2">
             <div className="mx-2">
               <MdEmail className="text-xl" />
             </div>
@@ -64,8 +64,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="w-full sm:w-auto">
-          <div className="flex items-center">
+        <div className="flex items-start justify-start lg:justify-center sm:w-auto">
+          <div className="flex items-start space-x-2">
             <div className="mx-2">
               <ImSphere className="text-xl" />
             </div>
