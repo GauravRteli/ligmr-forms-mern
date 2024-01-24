@@ -120,65 +120,54 @@ const FormComponent = () => {
           <h1 className="font-bold text-2xl text-center m-5">
             Fill the required fields
           </h1>
-          <form
-            onSubmit={handleSubmit}
-            className="relative "
-            style={{
-              backgroundImage: `url(${logo})`,
-              backgroundPosition: "center",
-              backgroundSize: "60% cover",
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <div className="absolute inset-0 bg-slate-100 bg-opacity-85"></div>
-            <div>
-              <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
-                <TextField
-                  label="Your Name"
-                  name="name"
-                  fullWidth
-                  margin="normal"
-                  variant="outlined"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
+          <form onSubmit={handleSubmit} className="relative ">
+            <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
+              <TextField
+                label="Your Name"
+                name="name"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
 
-                <TextField
-                  label="Phone Number"
-                  name="phoneNo"
-                  fullWidth
-                  margin="normal"
-                  variant="outlined"
-                  value={formData.phoneNo}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
-                <TextField
-                  label="Email"
-                  name="email"
-                  type="email"
-                  fullWidth
-                  margin="normal"
-                  variant="outlined"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-                <TextField
-                  label="City"
-                  name="city"
-                  fullWidth
-                  margin="normal"
-                  variant="outlined"
-                  value={formData.city}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+              <TextField
+                label="Phone Number"
+                name="phoneNo"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                value={formData.phoneNo}
+                onChange={handleChange}
+                required
+              />
             </div>
+            <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
+              <TextField
+                label="Email"
+                name="email"
+                type="email"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                label="City"
+                name="city"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                value={formData.city}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
             <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
               <FormControl fullWidth margin="normal">
                 <InputLabel htmlFor="userType">You are *</InputLabel>
