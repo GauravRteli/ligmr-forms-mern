@@ -471,24 +471,7 @@ const FormComponent = () => {
                   <MenuItem value="Other">Other</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl fullWidth margin="normal">
-                <InputLabel htmlFor="admissionCounseling">
-                  Available for Admission Counselling Session *
-                </InputLabel>
-                <Select
-                  label="Available for Admission Counselling Session *"
-                  value={formData.admissionCounseling}
-                  onChange={handleChange}
-                  inputProps={{
-                    name: "admissionCounseling",
-                    id: "admissionCounseling",
-                  }}
-                  required
-                >
-                  <MenuItem value="Today">Today</MenuItem>
-                  <MenuItem value="Tomorrow">Tomorrow</MenuItem>
-                </Select>
-              </FormControl>
+
               <FormControl fullWidth margin="normal">
                 <InputLabel htmlFor="careerAspirations">
                   Career Aspirations Post-Study *
@@ -510,6 +493,24 @@ const FormComponent = () => {
                   <MenuItem value="In another European Country">
                     In another European Country
                   </MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <InputLabel htmlFor="admissionCounseling">
+                  Available for Admission Counselling Session *
+                </InputLabel>
+                <Select
+                  label="Available for Admission Counselling Session *"
+                  value={formData.admissionCounseling}
+                  onChange={handleChange}
+                  inputProps={{
+                    name: "admissionCounseling",
+                    id: "admissionCounseling",
+                  }}
+                  required
+                >
+                  <MenuItem value="Today">Today</MenuItem>
+                  <MenuItem value="Tomorrow">Tomorrow</MenuItem>
                 </Select>
               </FormControl>
             </div>
