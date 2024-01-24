@@ -17,7 +17,11 @@ const Footer = () => {
                 <span className="font-semibold">PHONE : </span>
                 <br />{" "}
                 <span className="text-slate-600 font-semibold">
-                  <a href="tel:+917969459250">+91 7969459250</a>
+                  <a href="tel:+917969459250"> IN +91 7969459250</a>
+                </span>
+                <br />
+                <span className="text-slate-600 font-semibold">
+                  <a href="tel:+33426837301"> FR +33 426837301</a>
                 </span>
               </p>
             </div>
@@ -70,7 +74,7 @@ const Footer = () => {
               <ImSphere className="text-xl" />
             </div>
             <p className="">
-              <span className="font-semibold"> OUR SITE : </span> <br />
+              <span className="font-semibold"> WEBSITE : </span> <br />
               <span className="text-slate-600 font-semibold">
                 <a
                   href="https://www.ligmr.fr/"

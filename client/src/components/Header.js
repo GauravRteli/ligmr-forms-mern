@@ -13,17 +13,17 @@ const Header = () => {
   };
 
   return (
-    <div className="flex items-center shadow-lg">
+    <div className="flex items-center shadow-lg border-b-2 border-orange-300 selection:">
       <div className="lg:ml-5 md:ml-5 mt-2">
         <img src={logo} alt="logo" width={100} height={100} />
       </div>
       <div className="text-center mx-auto">
-        <p className="hidden text-3xl md:block font-normal">
+        <p className="hidden text-4xl md:block font-sans">
           Lyon Institute for Geostrategy & Multicultural Relations
         </p>
         <p
           style={{ marginLeft: "-8rem" }}
-          className="text-3xl -mx-10 md:hidden font-normal"
+          className="text-4xl -mx-10 md:hidden font-sans"
         >
           LIGMR
         </p>

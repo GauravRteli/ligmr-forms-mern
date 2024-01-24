@@ -118,8 +118,8 @@ const FormComponent = () => {
           }}
           className="shadow-lg"
         >
-          <h1 className="font-semibold text-2xl text-center m-5">
-            Fill the required fields
+          <h1 className="font-semibold text-3xl text-orange-500 text-center m-5">
+            Application Form
           </h1>
           <form onSubmit={handleSubmit}>
             <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
@@ -360,7 +360,7 @@ const FormComponent = () => {
                 Study Destination Preferences in France *
               </label>
               <FormGroup>
-                <div className="grid grid-cols-3 md:grid-cols-6">
+                <div className="grid grid-cols-2 md:grid-cols-6">
                   <FormControlLabel
                     control={
                       <Checkbox
@@ -384,6 +384,7 @@ const FormComponent = () => {
                       />
                     }
                     label="Lyon"
+                    className="text-sm"
                   />
                   <FormControlLabel
                     control={
