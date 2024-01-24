@@ -32,11 +32,6 @@ connectToMongoDB()
     });
 
     // Example: Close the MongoDB connection when your application exits
-    process.on("SIGINT", () => {
-      client.close();
-      console.log("MongoDB Atlas connection closed");
-      process.exit(0);
-    });
   })
   .catch((error) => {
     console.error("Unable to start server:", error);
