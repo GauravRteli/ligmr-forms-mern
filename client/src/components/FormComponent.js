@@ -526,7 +526,6 @@ const FormComponent = () => {
           </form>
         </Paper>
       </Container>
-      <Footer />
     </div>
   );
 };
