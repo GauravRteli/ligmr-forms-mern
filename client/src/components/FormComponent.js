@@ -19,6 +19,8 @@ import {
 } from "@mui/material";
 
 import axios from "axios";
+import Header from "./Header";
+import Footer from "./Footer";
 const FormComponent = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -100,13 +102,14 @@ const FormComponent = () => {
   const [loading1, setLoading1] = useState(false);
   return (
     <div
-      className="min-h-screen flex items-center justify-center"
+      className="min-h-screen  items-center justify-center"
       style={{
         backgroundImage: `url(${bgImage})`,
         backgroundSize: "cover",
         backgroundPosition: "center",
       }}
     >
+      <Header />
       <Container maxWidth="md" className="m-3 ">
         <Toaster />
         <Paper
@@ -523,6 +526,7 @@ const FormComponent = () => {
           </form>
         </Paper>
       </Container>
+      <Footer />
     </div>
   );
 };
