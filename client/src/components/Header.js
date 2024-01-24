@@ -28,9 +28,7 @@ const Header = () => {
         style={{
           color: "#EA1D1A",
         }}
-      >
-        <FaUserCircle className="mr-5" />
-      </a>
+      ></a>
     </div>
   );
 };
