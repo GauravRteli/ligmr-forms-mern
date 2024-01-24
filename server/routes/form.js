@@ -1,14 +1,12 @@
 const express = require("express");
 const router = express.Router();
-// const client = require("../db");
+const Form = require("../models/FormSchema");
 const sendMail = require("../helper/mailUtils");
+
 router.post("/applyForm", async (req, res) => {
-  let client;
   try {
-    client = req.dbClient;
-    const db = client.db("ligmr-form");
-    const collection = db.collection("posts");
-    const result = await collection.insertOne(req.body);
+    const form = new Form(req.body);
+    await form.save();
     const studentData = req.body;
     let des = "";
     studentData?.destinationPreferences?.map((item) => {
@@ -55,12 +53,10 @@ router.post("/applyForm", async (req, res) => {
       "New Student Enquiry",
       emailTemplate
     );
-    return res.send({ success: true, result });
+    return res.send({ success: true, form });
   } catch (error) {
     console.log(error);
     return res.send({ success: false, error: error });
-  } finally {
-    client.close();
   }
 });
 
