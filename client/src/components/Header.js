@@ -14,8 +14,7 @@ const Header = () => {
 
   return (
     <div className="flex  bg-amber-300 shadow-md justify-between items-center">
-      <div className="ml-5">
-        {" "}
+      <div className="lg:ml-5 md:ml-5 mt-2">
         <img src={logo} alt="logo" width={100} height={100} />{" "}
       </div>
       <p className="hidden font-bold text-3xl  md:block">
