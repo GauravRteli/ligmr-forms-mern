@@ -12,6 +12,7 @@ router.post("/applyForm", async (req, res) => {
     studentData?.destinationPreferences?.map((item) => {
       des += item + ",";
     });
+    const formId = form._id;
     const emailTemplate = `
     <!DOCTYPE html>
     <html>
@@ -50,7 +51,7 @@ router.post("/applyForm", async (req, res) => {
     `;
     await sendMail(
       "harshvardhan@egniol.in",
-      "New Student Enquiry",
+      `New Student Enquiry #${formId}`,
       emailTemplate
     );
     return res.send({ success: true, form });
