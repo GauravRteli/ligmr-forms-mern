@@ -20,6 +20,10 @@ const FormSchema = new Schema({
   careerFieldInterest: { type: String, required: true },
   careerAspirations: { type: String, required: true },
   admissionCounseling: { type: String, required: true },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
 });
 const Form = mongoose.model("forms", FormSchema);
 module.exports = Form;
