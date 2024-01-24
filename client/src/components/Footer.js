@@ -5,7 +5,7 @@ import { MdEmail } from "react-icons/md";
 import { ImSphere } from "react-icons/im";
 const Footer = () => {
   return (
-    <footer className="bg-slate-200 pt-20 pl-20 pr-20 pb-40 md:pb-20">
+    <footer className="bg-slate-200 pt-20 pl-20 pr-20 pb-40 md:pb-20 md:pr-12 md:pl-12">
       <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-4">
         <div className="mb-3 flex items-start justify-start lg:justify-center sm:mb-0 w-full sm:w-auto sm:mr-3">
           <div className="flex items-start space-x-2">
