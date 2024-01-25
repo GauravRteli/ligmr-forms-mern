@@ -3,6 +3,9 @@ import { Toaster, toast } from "react-hot-toast";
 import { Spin } from "antd";
 import logo from "../assets/logo.png";
 
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
 import {
   Container,
   Paper,
@@ -41,6 +44,12 @@ const FormComponent = () => {
     careerAspirations: "",
     admissionCounseling: "",
   });
+  const [phoneNumber, setPhoneNumber] = useState({
+    countryCode: "in",
+    value: "",
+    dailCode: "91",
+  });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -60,54 +69,53 @@ const FormComponent = () => {
     event.preventDefault();
     // Handle form submission logic here
 
+    if (formData.phoneNo.length < 5) {
+      toast.error("Please Enter phone valid number.");
+      return;
+    }
+
     if (formData.destinationPreferences.length === 0) {
       toast.error("At least one destination must be selected");
       return; // Prevent further processing if validation fails
     }
 
-    setLoading1(true);
+    setLoading(true);
 
     const { data } = await axios.post(
       "https://ligmr-form-admission.onrender.com/api/forms/applyForm",
+      // "http://localhost:5001/api/forms/applyForm",
       formData
     );
     if (data.success) {
       toast.success("Form submitted successfully");
+      setFormData({
+        name: "",
+        email: "",
+        phoneNo: "",
+        city: "",
+        userType: "",
+        fatherOccupation: "",
+        qualification: "",
+        course: "",
+        fundingSource: "",
+        budget: "",
+        intake: "",
+        experience: "",
+        englishProficiency: "",
+        appliedForFranceBefore: "",
+        destinationPreferences: [],
+        careerFieldInterest: "",
+        careerAspirations: "",
+        admissionCounseling: "",
+      });
     } else {
       toast.error(data.error);
     }
-    setLoading1(false);
-    setFormData({
-      name: "",
-      email: "",
-      phoneNo: "",
-      city: "",
-      userType: "",
-      fatherOccupation: "",
-      qualification: "",
-      course: "",
-      fundingSource: "",
-      budget: "",
-      intake: "",
-      experience: "",
-      englishProficiency: "",
-      appliedForFranceBefore: "",
-      destinationPreferences: [],
-      careerFieldInterest: "",
-      careerAspirations: "",
-      admissionCounseling: "",
-    });
+    setLoading(false);
   };
-  const [loading1, setLoading1] = useState(false);
+
   return (
-    <div
-      className="items-center justify-center"
-      // style={{
-      //   backgroundImage: `url(${bgImage})`,
-      //   backgroundSize: "cover",
-      //   backgroundPosition: "center",
-      // }}
-    >
+    <div className="items-center justify-center">
       <Container maxWidth="md" className="m-3  ">
         <Toaster />
         <Paper
@@ -122,51 +130,74 @@ const FormComponent = () => {
             Application Form
           </h1>
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
-              <TextField
-                label="Your Name"
-                name="name"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2 items-center">
+                <TextField
+                  label="Your Name"
+                  name="name"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
+                <div className="mt-2">
+                  <PhoneInput
+                    label="Phone Number"
+                    name="phoneNo"
+                    country={phoneNumber?.countryCode}
+                    value={formData.phoneNo}
+                    margin="normal"
+                    onChange={async (value, formattedValue) => {
+                      setPhoneNumber({
+                        countryCode: formattedValue.countryCode,
+                        value: value,
+                        dailCode: formattedValue.dialCode,
+                      });
+                      setFormData({
+                        ...formData,
+                        phoneNo: value,
+                      });
+                    }}
+                    inputProps={{
+                      className:
+                        "h-15 w-full pl-11 pt-3.5 pb-4 bg-transparent rounded items-center",
+                      style: { border: "1px solid #ccc" },
+                      placeholder: "Mobile Number",
+                    }}
+                    InputProps={{
+                      style: {
+                        border: "none",
+                      },
+                    }}
+                  />
+                </div>
+              </div>
+              <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2 ">
+                <TextField
+                  label="Email"
+                  name="email"
+                  type="email"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
 
-              <TextField
-                label="Phone Number"
-                name="phoneNo"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                value={formData.phoneNo}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
-              <TextField
-                label="Email"
-                name="email"
-                type="email"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              <TextField
-                label="City"
-                name="city"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                value={formData.city}
-                onChange={handleChange}
-                required
-              />
+                <TextField
+                  label="City"
+                  name="city"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  value={formData.city}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
@@ -513,11 +544,12 @@ const FormComponent = () => {
               color="primary"
               fullWidth
               style={{ marginTop: "20px", padding: "10px" }}
+              disabled={loading}
             >
               {/* Submit */}
-              {loading1 ? (
+              {loading ? (
                 <div className="flex justify-center items-center">
-                  <Spin size="large" spinning={loading1} />
+                  <Spin size="large" spinning={loading} />
                 </div>
               ) : (
                 "Apply Now"
