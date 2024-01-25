@@ -69,8 +69,8 @@ const FormComponent = () => {
     event.preventDefault();
     // Handle form submission logic here
 
-    if (!formData.phoneNo) {
-      toast.error('Please Enter phone number.');
+    if (formData.phoneNo.length < 5) {
+      toast.error("Please Enter phone valid number.");
       return;
     }
 
@@ -171,7 +171,6 @@ const FormComponent = () => {
                         border: "none",
                       },
                     }}
-                    
                   />
                 </div>
               </div>
