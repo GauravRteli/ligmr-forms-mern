@@ -3,6 +3,9 @@ import { Toaster, toast } from "react-hot-toast";
 import { Spin } from "antd";
 import logo from "../assets/logo.png";
 
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
 import {
   Container,
   Paper,
@@ -135,7 +138,7 @@ const FormComponent = () => {
                 required
               />
 
-              <TextField
+              {/* <TextField
                 label="Phone Number"
                 name="phoneNo"
                 fullWidth
@@ -144,6 +147,24 @@ const FormComponent = () => {
                 value={formData.phoneNo}
                 onChange={handleChange}
                 required
+              /> */}
+              <PhoneInput
+                label="Phone Number"
+                name="phoneNo"
+                value={formData.phoneNo}
+                margin="normal"
+                className="h-full"
+                inputProps={{
+                  className:
+                    "h-15 w-full pl-11 pt-4 pb-4 bg-transparent rounded  ",
+                  style: { border: "1px solid #ccc" },
+                  placeholder: "Mobile Number",
+                }}
+                InputProps={{
+                  style: {
+                    border: "none",
+                  },
+                }}
               />
             </div>
             <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
