@@ -3,6 +3,9 @@ import { Toaster, toast } from "react-hot-toast";
 import { Spin } from "antd";
 import logo from "../assets/logo.png";
 
+import PhoneInput from "react-phone-input-2";
+import "react-phone-input-2/lib/style.css";
+
 import {
   Container,
   Paper,
@@ -41,6 +44,7 @@ const FormComponent = () => {
     careerAspirations: "",
     admissionCounseling: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -65,7 +69,7 @@ const FormComponent = () => {
       return; // Prevent further processing if validation fails
     }
 
-    setLoading1(true);
+    setLoading(true);
 
     const { data } = await axios.post(
       // "https://ligmr-form-admission.onrender.com/api/forms/applyForm",
@@ -99,7 +103,7 @@ const FormComponent = () => {
     }
     setLoading1(false);
   };
-  const [loading1, setLoading1] = useState(false);
+
   return (
     <div
       className="items-center justify-center"
@@ -123,19 +127,38 @@ const FormComponent = () => {
             Application Form
           </h1>
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
-              <TextField
-                label="Your Name"
-                name="name"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2 items-center">
+                <TextField
+                  label="Your Name"
+                  name="name"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
 
-              <TextField
+                <PhoneInput
+                  label="Phone Number"
+                  name="phoneNo"
+                  value={formData.phoneNo}
+                  margin="normal"
+                  inputProps={{
+                    className:
+                      "h-15 w-full pl-11 pt-4 pb-4 bg-transparent rounded items-center",
+                    style: { border: "1px solid #ccc" },
+                    placeholder: "Mobile Number",
+                  }}
+                  InputProps={{
+                    style: {
+                      border: "none",
+                    },
+                  }}
+                />
+
+                {/* <TextField
                 label="Phone Number"
                 name="phoneNo"
                 fullWidth
@@ -144,30 +167,32 @@ const FormComponent = () => {
                 value={formData.phoneNo}
                 onChange={handleChange}
                 required
-              />
-            </div>
-            <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
-              <TextField
-                label="Email"
-                name="email"
-                type="email"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              <TextField
-                label="City"
-                name="city"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                value={formData.city}
-                onChange={handleChange}
-                required
-              />
+              /> */}
+              </div>
+              <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2 ">
+                <TextField
+                  label="Email"
+                  name="email"
+                  type="email"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+
+                <TextField
+                  label="City"
+                  name="city"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  value={formData.city}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
@@ -514,11 +539,12 @@ const FormComponent = () => {
               color="primary"
               fullWidth
               style={{ marginTop: "20px", padding: "10px" }}
+              disabled={loading}
             >
               {/* Submit */}
-              {loading1 ? (
+              {loading ? (
                 <div className="flex justify-center items-center">
-                  <Spin size="large" spinning={loading1} />
+                  <Spin size="large" spinning={loading} />
                 </div>
               ) : (
                 "Apply Now"
