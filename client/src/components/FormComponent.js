@@ -3,9 +3,6 @@ import { Toaster, toast } from "react-hot-toast";
 import { Spin } from "antd";
 import logo from "../assets/logo.png";
 
-
-import { admission } from "../api/admission";
-
 import {
   Container,
   Paper,
