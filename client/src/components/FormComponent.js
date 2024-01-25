@@ -101,18 +101,11 @@ const FormComponent = () => {
     } else {
       toast.error(data.error);
     }
-    setLoading1(false);
+    setLoading(false);
   };
 
   return (
-    <div
-      className="items-center justify-center"
-      // style={{
-      //   backgroundImage: `url(${bgImage})`,
-      //   backgroundSize: "cover",
-      //   backgroundPosition: "center",
-      // }}
-    >
+    <div className="items-center justify-center">
       <Container maxWidth="md" className="m-3  ">
         <Toaster />
         <Paper
