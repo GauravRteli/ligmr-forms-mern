@@ -44,6 +44,11 @@ const FormComponent = () => {
     careerAspirations: "",
     admissionCounseling: "",
   });
+  const [phoneNumber, setPhoneNumber] = useState({
+    countryCode: "in",
+    value: "",
+    dailCode: "91",
+  });
   const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
@@ -132,35 +137,38 @@ const FormComponent = () => {
                   onChange={handleChange}
                   required
                 />
-
-                <PhoneInput
-                  label="Phone Number"
-                  name="phoneNo"
-                  value={formData.phoneNo}
-                  margin="normal"
-                  inputProps={{
-                    className:
-                      "h-15 w-full pl-11 pt-4 pb-4 bg-transparent rounded items-center",
-                    style: { border: "1px solid #ccc" },
-                    placeholder: "Mobile Number",
-                  }}
-                  InputProps={{
-                    style: {
-                      border: "none",
-                    },
-                  }}
-                />
-
-                {/* <TextField
-                label="Phone Number"
-                name="phoneNo"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                value={formData.phoneNo}
-                onChange={handleChange}
-                required
-              /> */}
+                <div className="mt-2">
+                  <PhoneInput
+                    label="Phone Number"
+                    name="phoneNo"
+                    country={phoneNumber?.countryCode}
+                    value={formData.phoneNo}
+                    margin="normal"
+                    onChange={async (value, formattedValue) => {
+                      setPhoneNumber({
+                        countryCode: formattedValue.countryCode,
+                        value: value,
+                        dailCode: formattedValue.dialCode,
+                      });
+                      setFormData({
+                        ...formData,
+                        phoneNo: value,
+                      });
+                    }}
+                    inputProps={{
+                      className:
+                        "h-15 w-full pl-11 pt-3.5 pb-4 bg-transparent rounded items-center",
+                      style: { border: "1px solid #ccc" },
+                      placeholder: "Mobile Number",
+                    }}
+                    InputProps={{
+                      style: {
+                        border: "none",
+                      },
+                    }}
+                    
+                  />
+                </div>
               </div>
               <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2 ">
                 <TextField
