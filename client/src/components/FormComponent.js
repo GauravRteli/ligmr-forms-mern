@@ -41,6 +41,7 @@ const FormComponent = () => {
     careerAspirations: "",
     admissionCounseling: "",
   });
+  const [loading, setLoading] = useState(false);
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
@@ -65,7 +66,7 @@ const FormComponent = () => {
       return; // Prevent further processing if validation fails
     }
 
-    setLoading1(true);
+    setLoading(true);
 
     const { data } = await axios.post(
       "https://ligmr-form-admission.onrender.com/api/forms/applyForm",
@@ -76,7 +77,7 @@ const FormComponent = () => {
     } else {
       toast.error(data.error);
     }
-    setLoading1(false);
+    setLoading(false);
     setFormData({
       name: "",
       email: "",
@@ -98,7 +99,7 @@ const FormComponent = () => {
       admissionCounseling: "",
     });
   };
-  const [loading1, setLoading1] = useState(false);
+
   return (
     <div
       className="items-center justify-center"
@@ -513,11 +514,12 @@ const FormComponent = () => {
               color="primary"
               fullWidth
               style={{ marginTop: "20px", padding: "10px" }}
+              disabled={loading}
             >
               {/* Submit */}
-              {loading1 ? (
+              {loading ? (
                 <div className="flex justify-center items-center">
-                  <Spin size="large" spinning={loading1} />
+                  <Spin size="large" spinning={loading} />
                 </div>
               ) : (
                 "Apply Now"
