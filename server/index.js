@@ -1,11 +1,18 @@
 const express = require("express");
 const cors = require("cors");
-const connectToMongoDB = require("./db/index");
+// const connectToMongoDB = require("./db/index");
 const app = express();
 const port = 5002;
 
 // Connect to MongoDB Atlas
-connectToMongoDB();
+// connectToMongoDB();
+
+const formModel = require("./models/form.model");
+const userModel = require("./models/user.model");
+
+// Create tables if they don't exist
+formModel.createFormTable();
+userModel.createUserTable();
 
 app.use(express.json());
 

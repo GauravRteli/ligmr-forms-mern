@@ -1,14 +1,29 @@
-const mongoose = require("mongoose");
+const mysql = require("mysql");
 
-// url for connect database
-const mongoURI =
-  "mongodb+srv://harshilprajapati9192:harshil@cluster0.ig7ijgr.mongodb.net/?retryWrites=true&w=majority";
+const db = mysql.createConnection({
+  host: process.env.DB_HOST,
+  user: process.env.DB_USER,
+  password: process.env.DB_PASSWORD,
+  database: process.env.DB_DATABASE,
+});
 
-const connectToMongoDB = () => {
-  mongoose.connect(mongoURI, () => {
-    console.log("Connected to Mongo Successfully");
+db.connect((err) => {
+  if (err) {
+    console.error("Error connecting to MySQL:", err);
+  } else {
+    console.log("Connected to MySQL database");
+  }
+});
+
+// Close the database connection on application exit
+process.on("SIGINT", () => {
+  db.end((err) => {
+    if (err) {
+      console.error("Error closing MySQL connection:", err);
+    }
+    console.log("MySQL connection closed");
+    process.exit();
   });
-};
+});
 
-module.exports = connectToMongoDB;
-// module.exports = client;
+module.exports = db;
