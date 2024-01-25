@@ -126,19 +126,38 @@ const FormComponent = () => {
             Application Form
           </h1>
           <form onSubmit={handleSubmit}>
-            <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
-              <TextField
-                label="Your Name"
-                name="name"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
+            <div style={{ display: "flex", flexDirection: "column" }}>
+              <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2 items-center">
+                <TextField
+                  label="Your Name"
+                  name="name"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  value={formData.name}
+                  onChange={handleChange}
+                  required
+                />
 
-              {/* <TextField
+                <PhoneInput
+                  label="Phone Number"
+                  name="phoneNo"
+                  value={formData.phoneNo}
+                  margin="normal"
+                  inputProps={{
+                    className:
+                      "h-15 w-full pl-11 pt-4 pb-4 bg-transparent rounded items-center",
+                    style: { border: "1px solid #ccc" },
+                    placeholder: "Mobile Number",
+                  }}
+                  InputProps={{
+                    style: {
+                      border: "none",
+                    },
+                  }}
+                />
+
+                {/* <TextField
                 label="Phone Number"
                 name="phoneNo"
                 fullWidth
@@ -148,47 +167,31 @@ const FormComponent = () => {
                 onChange={handleChange}
                 required
               /> */}
-              <PhoneInput
-                label="Phone Number"
-                name="phoneNo"
-                value={formData.phoneNo}
-                margin="normal"
-                className="h-full"
-                inputProps={{
-                  className:
-                    "h-15 w-full pl-11 pt-4 pb-4 bg-transparent rounded  ",
-                  style: { border: "1px solid #ccc" },
-                  placeholder: "Mobile Number",
-                }}
-                InputProps={{
-                  style: {
-                    border: "none",
-                  },
-                }}
-              />
-            </div>
-            <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
-              <TextField
-                label="Email"
-                name="email"
-                type="email"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                value={formData.email}
-                onChange={handleChange}
-                required
-              />
-              <TextField
-                label="City"
-                name="city"
-                fullWidth
-                margin="normal"
-                variant="outlined"
-                value={formData.city}
-                onChange={handleChange}
-                required
-              />
+              </div>
+              <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2 ">
+                <TextField
+                  label="Email"
+                  name="email"
+                  type="email"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  value={formData.email}
+                  onChange={handleChange}
+                  required
+                />
+
+                <TextField
+                  label="City"
+                  name="city"
+                  fullWidth
+                  margin="normal"
+                  variant="outlined"
+                  value={formData.city}
+                  onChange={handleChange}
+                  required
+                />
+              </div>
             </div>
 
             <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
