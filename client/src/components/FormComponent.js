@@ -68,35 +68,36 @@ const FormComponent = () => {
     setLoading1(true);
 
     const { data } = await axios.post(
-      "https://ligmr-form-admission.onrender.com/api/forms/applyForm",
+      // "https://ligmr-form-admission.onrender.com/api/forms/applyForm",
+      "http://localhost:5001/api/forms/applyForm",
       formData
     );
     if (data.success) {
       toast.success("Form submitted successfully");
+      setFormData({
+        name: "",
+        email: "",
+        phoneNo: "",
+        city: "",
+        userType: "",
+        fatherOccupation: "",
+        qualification: "",
+        course: "",
+        fundingSource: "",
+        budget: "",
+        intake: "",
+        experience: "",
+        englishProficiency: "",
+        appliedForFranceBefore: "",
+        destinationPreferences: [],
+        careerFieldInterest: "",
+        careerAspirations: "",
+        admissionCounseling: "",
+      });
     } else {
       toast.error(data.error);
     }
     setLoading1(false);
-    setFormData({
-      name: "",
-      email: "",
-      phoneNo: "",
-      city: "",
-      userType: "",
-      fatherOccupation: "",
-      qualification: "",
-      course: "",
-      fundingSource: "",
-      budget: "",
-      intake: "",
-      experience: "",
-      englishProficiency: "",
-      appliedForFranceBefore: "",
-      destinationPreferences: [],
-      careerFieldInterest: "",
-      careerAspirations: "",
-      admissionCounseling: "",
-    });
   };
   const [loading1, setLoading1] = useState(false);
   return (
