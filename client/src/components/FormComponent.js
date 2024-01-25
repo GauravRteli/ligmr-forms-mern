@@ -3,6 +3,9 @@ import { Toaster, toast } from "react-hot-toast";
 import { Spin } from "antd";
 import logo from "../assets/logo.png";
 
+
+import { admission } from "../api/admission";
+
 import {
   Container,
   Paper,
@@ -67,15 +70,27 @@ const FormComponent = () => {
 
     setLoading1(true);
 
-    const { data } = await axios.post(
-      "https://ligmr-form-admission.onrender.com/api/forms/applyForm",
-      formData
-    );
-    if (data.success) {
-      toast.success("Form submitted successfully");
-    } else {
-      toast.error(data.error);
-    }
+    // const { data } = await axios.post(
+    //   "https://ligmr-form-admission.onrender.com/api/forms/applyForm",
+    //   formData
+    // );
+    // if (data.success) {
+    //   toast.success("Form submitted successfully");
+    // } else {
+    //   toast.error(data.error);
+    // }
+    try {
+      const data = await admission(formData);
+        // await axios.post(  "https://ligmr-form-admission.onrender.com/api/forms/applyForm",formData );
+      if (data.success) {
+        toast.success("Form Submitted successfully !");
+      } else if (data.error) {
+        toast.error(data.error);
+      }
+    }catch (error) {
+      toast.error("Error submitting form");
+    }  
+
     setLoading1(false);
     setFormData({
       name: "",
