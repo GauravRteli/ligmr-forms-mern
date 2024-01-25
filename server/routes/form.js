@@ -1,18 +1,18 @@
 const express = require("express");
 const router = express.Router();
-const client = require("../db");
+const Form = require("../models/FormSchema");
 const sendMail = require("../helper/mailUtils");
+
 router.post("/applyForm", async (req, res) => {
   try {
-    client.connect();
-    const db = client.db("ligmr-form");
-    const collection = db.collection("posts");
-    const result = await collection.insertOne(req.body);
+    const form = new Form(req.body);
+    await form.save();
     const studentData = req.body;
     let des = "";
     studentData?.destinationPreferences?.map((item) => {
       des += item + ",";
     });
+    const formId = form._id;
     const emailTemplate = `
     <!DOCTYPE html>
     <html>
@@ -51,15 +51,13 @@ router.post("/applyForm", async (req, res) => {
     `;
     await sendMail(
       "harshvardhan@egniol.in",
-      "New Student Enquiry",
+      `New Student Enquiry #${formId}`,
       emailTemplate
     );
-    return res.send({ success: true, result });
+    return res.send({ success: true, form });
   } catch (error) {
     console.log(error);
     return res.send({ success: false, error: error });
-  } finally {
-    client.close();
   }
 });
 

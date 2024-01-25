@@ -2,7 +2,6 @@ import React, { useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { Spin } from "antd";
 import logo from "../assets/logo.png";
-import bgImage from "../bgimages.jpg";
 
 import {
   Container,
@@ -19,6 +18,8 @@ import {
 } from "@mui/material";
 
 import axios from "axios";
+import Header from "./Header";
+import Footer from "./Footer";
 const FormComponent = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -100,85 +101,74 @@ const FormComponent = () => {
   const [loading1, setLoading1] = useState(false);
   return (
     <div
-      className="min-h-screen flex items-center justify-center"
-      style={{
-        backgroundImage: `url(${bgImage})`,
-        backgroundSize: "cover",
-        backgroundPosition: "center",
-      }}
+      className="items-center justify-center"
+      // style={{
+      //   backgroundImage: `url(${bgImage})`,
+      //   backgroundSize: "cover",
+      //   backgroundPosition: "center",
+      // }}
     >
-      <Container maxWidth="md" className="m-3 ">
+      <Container maxWidth="md" className="m-3  ">
         <Toaster />
         <Paper
           elevation={3}
           style={{
             padding: "20px",
             marginTop: "20px",
-            backgroundColor: "#f1f5f9",
           }}
+          className="shadow-lg"
         >
-          <h1 className="font-bold text-2xl text-center m-5">
-            Fill the required fields
+          <h1 className="font-semibold text-3xl text-orange-500 text-center m-5">
+            Application Form
           </h1>
-          <form
-            onSubmit={handleSubmit}
-            className="relative "
-            style={{
-              backgroundImage: `url(${logo})`,
-              backgroundPosition: "center",
-              backgroundSize: "60% cover",
-              backgroundRepeat: "no-repeat",
-            }}
-          >
-            <div className="absolute inset-0 bg-slate-100 bg-opacity-85"></div>
-            <div>
-              <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
-                <TextField
-                  label="Your Name"
-                  name="name"
-                  fullWidth
-                  margin="normal"
-                  variant="outlined"
-                  value={formData.name}
-                  onChange={handleChange}
-                  required
-                />
+          <form onSubmit={handleSubmit}>
+            <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
+              <TextField
+                label="Your Name"
+                name="name"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                value={formData.name}
+                onChange={handleChange}
+                required
+              />
 
-                <TextField
-                  label="Phone Number"
-                  name="phoneNo"
-                  fullWidth
-                  margin="normal"
-                  variant="outlined"
-                  value={formData.phoneNo}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
-              <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
-                <TextField
-                  label="Email"
-                  name="email"
-                  type="email"
-                  fullWidth
-                  margin="normal"
-                  variant="outlined"
-                  value={formData.email}
-                  onChange={handleChange}
-                  required
-                />
-                <TextField
-                  label="City"
-                  name="city"
-                  fullWidth
-                  margin="normal"
-                  variant="outlined"
-                  value={formData.city}
-                  onChange={handleChange}
-                  required
-                />
-              </div>
+              <TextField
+                label="Phone Number"
+                name="phoneNo"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                value={formData.phoneNo}
+                onChange={handleChange}
+                required
+              />
             </div>
+            <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
+              <TextField
+                label="Email"
+                name="email"
+                type="email"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                value={formData.email}
+                onChange={handleChange}
+                required
+              />
+              <TextField
+                label="City"
+                name="city"
+                fullWidth
+                margin="normal"
+                variant="outlined"
+                value={formData.city}
+                onChange={handleChange}
+                required
+              />
+            </div>
+
             <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
               <FormControl fullWidth margin="normal">
                 <InputLabel htmlFor="userType">You are *</InputLabel>
@@ -365,88 +355,90 @@ const FormComponent = () => {
                 </Select>
               </FormControl>
             </div>
-            <FormControl component="fieldset" fullWidth margin="normal">
-              <label component="legend" className="font-semibold">
-                Study Destination Preferences in France *
-              </label>
-              <FormGroup>
-                <div className="grid grid-cols-3 md:grid-cols-6">
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={formData.destinationPreferences.includes(
-                          "Paris"
-                        )}
-                        onChange={handleChange}
-                        name="Paris"
-                      />
-                    }
-                    label="Paris"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={formData.destinationPreferences.includes(
-                          "Lyon"
-                        )}
-                        onChange={handleChange}
-                        name="Lyon"
-                      />
-                    }
-                    label="Lyon"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={formData.destinationPreferences.includes(
-                          "Angers"
-                        )}
-                        onChange={handleChange}
-                        name="Angers"
-                      />
-                    }
-                    label="Angers"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={formData.destinationPreferences.includes(
-                          "Bordeaux"
-                        )}
-                        onChange={handleChange}
-                        name="Bordeaux"
-                      />
-                    }
-                    label="Bordeaux"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={formData.destinationPreferences.includes(
-                          "Geneva"
-                        )}
-                        onChange={handleChange}
-                        name="Geneva"
-                      />
-                    }
-                    label="Geneva"
-                  />
-                  <FormControlLabel
-                    control={
-                      <Checkbox
-                        checked={formData.destinationPreferences.includes(
-                          "Other"
-                        )}
-                        onChange={handleChange}
-                        name="Other"
-                      />
-                    }
-                    label="Other"
-                  />
+            <div>
+              <FormControl component="fieldset" fullWidth margin="normal">
+                <label component="legend" className="font-semibold">
+                  Study Destination Preferences in France *
+                </label>
+                <div>
+                  <div className="grid grid-cols-2 md:grid-cols-6">
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={formData.destinationPreferences.includes(
+                            "Paris"
+                          )}
+                          onChange={handleChange}
+                          name="Paris"
+                        />
+                      }
+                      label="Paris"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={formData.destinationPreferences.includes(
+                            "Lyon"
+                          )}
+                          onChange={handleChange}
+                          name="Lyon"
+                        />
+                      }
+                      label="Lyon"
+                      className="text-sm"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={formData.destinationPreferences.includes(
+                            "Angers"
+                          )}
+                          onChange={handleChange}
+                          name="Angers"
+                        />
+                      }
+                      label="Angers"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={formData.destinationPreferences.includes(
+                            "Bordeaux"
+                          )}
+                          onChange={handleChange}
+                          name="Bordeaux"
+                        />
+                      }
+                      label="Bordeaux"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={formData.destinationPreferences.includes(
+                            "Geneva"
+                          )}
+                          onChange={handleChange}
+                          name="Geneva"
+                        />
+                      }
+                      label="Geneva"
+                    />
+                    <FormControlLabel
+                      control={
+                        <Checkbox
+                          checked={formData.destinationPreferences.includes(
+                            "Other"
+                          )}
+                          onChange={handleChange}
+                          name="Other"
+                        />
+                      }
+                      label="Other"
+                    />
+                  </div>
                 </div>
-              </FormGroup>
-            </FormControl>
-
+              </FormControl>
+            </div>
             <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2">
               <FormControl fullWidth margin="normal">
                 <InputLabel htmlFor="careerFieldInterest">
@@ -471,24 +463,7 @@ const FormComponent = () => {
                   <MenuItem value="Other">Other</MenuItem>
                 </Select>
               </FormControl>
-              <FormControl fullWidth margin="normal">
-                <InputLabel htmlFor="admissionCounseling">
-                  Available for Admission Counselling Session *
-                </InputLabel>
-                <Select
-                  label="Available for Admission Counselling Session *"
-                  value={formData.admissionCounseling}
-                  onChange={handleChange}
-                  inputProps={{
-                    name: "admissionCounseling",
-                    id: "admissionCounseling",
-                  }}
-                  required
-                >
-                  <MenuItem value="Today">Today</MenuItem>
-                  <MenuItem value="Tomorrow">Tomorrow</MenuItem>
-                </Select>
-              </FormControl>
+
               <FormControl fullWidth margin="normal">
                 <InputLabel htmlFor="careerAspirations">
                   Career Aspirations Post-Study *
@@ -510,6 +485,24 @@ const FormComponent = () => {
                   <MenuItem value="In another European Country">
                     In another European Country
                   </MenuItem>
+                </Select>
+              </FormControl>
+              <FormControl fullWidth margin="normal">
+                <InputLabel htmlFor="admissionCounseling">
+                  Available for Admission Counselling Session *
+                </InputLabel>
+                <Select
+                  label="Available for Admission Counselling Session *"
+                  value={formData.admissionCounseling}
+                  onChange={handleChange}
+                  inputProps={{
+                    name: "admissionCounseling",
+                    id: "admissionCounseling",
+                  }}
+                  required
+                >
+                  <MenuItem value="Today">Today</MenuItem>
+                  <MenuItem value="Tomorrow">Tomorrow</MenuItem>
                 </Select>
               </FormControl>
             </div>

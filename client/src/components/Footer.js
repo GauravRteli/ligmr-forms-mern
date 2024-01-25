@@ -5,10 +5,10 @@ import { MdEmail } from "react-icons/md";
 import { ImSphere } from "react-icons/im";
 const Footer = () => {
   return (
-    <footer className="bg-slate-200 p-2">
-      <div className="flex flex-wrap justify-around items-center">
-        <div className="mb-3 sm:mb-0 w-full sm:w-auto sm:mr-3">
-          <div className="flex items-center">
+    <footer className="bg-slate-200 pt-20 lg:pl-20 lg:pr-20 pb-40 md:pb-20 pr-12 pl-12">
+      <div className="grid grid-cols-1  md:grid-cols-2 lg:grid-cols-4 gap-4">
+        <div className="mb-3 flex items-start justify-start lg:justify-center sm:mb-0 w-full sm:w-auto sm:mr-3">
+          <div className="flex items-start space-x-2">
             <div className=" mx-2">
               <FaPhoneAlt className="text-xl" />
             </div>
@@ -17,16 +17,20 @@ const Footer = () => {
                 <span className="font-semibold">PHONE : </span>
                 <br />{" "}
                 <span className="text-slate-600 font-semibold">
-                  <a href="tel:+917969459250">+91 7969459250</a>
+                  <a href="tel:+917969459250"> IN +91 7969459250</a>
+                </span>
+                <br />
+                <span className="text-slate-600 font-semibold">
+                  <a href="tel:+33426837301"> FR +33 426837301</a>
                 </span>
               </p>
             </div>
           </div>
         </div>
 
-        <div className="mb-3 sm:mb-0 w-full sm:w-auto sm:mr-3">
+        <div className="mb-3 flex items-start justify-start lg:justify-center sm:mb-0 w-full sm:w-auto sm:mr-3">
           {" "}
-          <div className="flex items-center">
+          <div className="flex items-start space-x-2">
             <div className="mx-2">
               <FaLocationDot className="text-xl" />
             </div>
@@ -43,8 +47,8 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="mb-3 sm:mb-0 w-full sm:w-auto sm:mr-3">
-          <div className="flex items-center">
+        <div className="mb-3 flex items-start justify-start lg:justify-center sm:mb-0 w-full sm:w-auto sm:mr-3">
+          <div className="flex items-start space-x-2">
             <div className="mx-2">
               <MdEmail className="text-xl" />
             </div>
@@ -64,13 +68,13 @@ const Footer = () => {
           </div>
         </div>
 
-        <div className="w-full sm:w-auto">
-          <div className="flex items-center">
+        <div className="flex items-start justify-start lg:justify-center sm:w-auto">
+          <div className="flex items-start space-x-2">
             <div className="mx-2">
               <ImSphere className="text-xl" />
             </div>
             <p className="">
-              <span className="font-semibold"> OUR SITE : </span> <br />
+              <span className="font-semibold"> WEBSITE : </span> <br />
               <span className="text-slate-600 font-semibold">
                 <a
                   href="https://www.ligmr.fr/"
