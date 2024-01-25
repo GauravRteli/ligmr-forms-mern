@@ -11,6 +11,7 @@ app.use(
     origin: [
       "http://localhost:3000",
       "https://ligmr-admission-enquiry-form.vercel.app",
+      "https://ligmrinquirydata.vercel.app",
     ],
   })
 );
