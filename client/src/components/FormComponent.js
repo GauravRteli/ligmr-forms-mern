@@ -82,8 +82,8 @@ const FormComponent = () => {
     setLoading(true);
 
     const { data } = await axios.post(
-      // "https://ligmr-form-admission.onrender.com/api/forms/applyForm",
-      "http://localhost:5001/api/forms/applyForm",
+      "https://ligmr-form-admission.onrender.com/api/forms/applyForm",
+      // "http://localhost:5001/api/forms/applyForm",
       formData
     );
     if (data.success) {
