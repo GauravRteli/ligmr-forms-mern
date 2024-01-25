@@ -1,7 +1,7 @@
 const mysqlConnection = require("../db");
 
 const createFormTableQuery = `
-CREATE TABLE forms (
+CREATE TABLE enquiry_forms (
     id INT PRIMARY KEY AUTO_INCREMENT,
     name VARCHAR(255) NOT NULL,
     email VARCHAR(255) NOT NULL,
@@ -21,7 +21,7 @@ CREATE TABLE forms (
     careerFieldInterest VARCHAR(255) NOT NULL,
     careerAspirations TEXT NOT NULL,
     admissionCounseling VARCHAR(255) NOT NULL,
-    createdAt TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+    createdAt DATETIME DEFAULT CURRENT_TIMESTAMP
 );`;
 
 const createFormTable = () => {

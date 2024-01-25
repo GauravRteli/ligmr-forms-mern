@@ -12,7 +12,8 @@ router.post("/signUp", async (req, res) => {
     const hashedPassword = await bcrypt.hash(password, 10);
 
     // Insert the new admin into the database
-    const insertQuery = "INSERT INTO users (email, password) VALUES (?, ?)";
+    const insertQuery =
+      "INSERT INTO enquiry_users (email, password) VALUES (?, ?)";
     db.query(insertQuery, [email, hashedPassword], (err, result) => {
       if (err) {
         console.error("Error signing up:", err);
@@ -34,7 +35,7 @@ router.post("/signin", (req, res) => {
   const { email, password } = req.body;
 
   // Retrieve admin information based on email
-  const selectQuery = "SELECT * FROM users WHERE email = ?";
+  const selectQuery = "SELECT * FROM enquiry_users WHERE email = ?";
 
   db.query(selectQuery, [email], async (err, results) => {
     if (err) {
