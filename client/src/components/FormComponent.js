@@ -69,6 +69,11 @@ const FormComponent = () => {
     event.preventDefault();
     // Handle form submission logic here
 
+    if (!formData.phoneNo) {
+      toast.error('Please Enter phone number.');
+      return;
+    }
+
     if (formData.destinationPreferences.length === 0) {
       toast.error("At least one destination must be selected");
       return; // Prevent further processing if validation fails
