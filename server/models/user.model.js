@@ -1,7 +1,7 @@
 const mysqlConnection = require("../db");
 
 const createUserTableQuery = `
-CREATE TABLE users (
+CREATE TABLE enquiry_users (
     id INT PRIMARY KEY AUTO_INCREMENT,
     email VARCHAR(255) NOT NULL,
     password VARCHAR(255) NOT NULL,

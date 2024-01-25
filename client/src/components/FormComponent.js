@@ -77,46 +77,40 @@ const FormComponent = () => {
     setLoading(true);
 
     const { data } = await axios.post(
-      "https://ligmr-form-admission.onrender.com/api/forms/applyForm",
+      // "https://ligmr-form-admission.onrender.com/api/forms/applyForm",
+      "http://localhost:5001/api/forms/applyForm",
       formData
     );
     if (data.success) {
       toast.success("Form submitted successfully");
+      setFormData({
+        name: "",
+        email: "",
+        phoneNo: "",
+        city: "",
+        userType: "",
+        fatherOccupation: "",
+        qualification: "",
+        course: "",
+        fundingSource: "",
+        budget: "",
+        intake: "",
+        experience: "",
+        englishProficiency: "",
+        appliedForFranceBefore: "",
+        destinationPreferences: [],
+        careerFieldInterest: "",
+        careerAspirations: "",
+        admissionCounseling: "",
+      });
     } else {
       toast.error(data.error);
     }
     setLoading(false);
-    setFormData({
-      name: "",
-      email: "",
-      phoneNo: "",
-      city: "",
-      userType: "",
-      fatherOccupation: "",
-      qualification: "",
-      course: "",
-      fundingSource: "",
-      budget: "",
-      intake: "",
-      experience: "",
-      englishProficiency: "",
-      appliedForFranceBefore: "",
-      destinationPreferences: [],
-      careerFieldInterest: "",
-      careerAspirations: "",
-      admissionCounseling: "",
-    });
   };
 
   return (
-    <div
-      className="items-center justify-center"
-      // style={{
-      //   backgroundImage: `url(${bgImage})`,
-      //   backgroundSize: "cover",
-      //   backgroundPosition: "center",
-      // }}
-    >
+    <div className="items-center justify-center">
       <Container maxWidth="md" className="m-3  ">
         <Toaster />
         <Paper
