@@ -156,12 +156,13 @@ router.get("/studentsByDateRange", (req, res) => {
   // Convert date strings to MySQL format
   const formattedStartDate = startDate;
   const formattedEndDate = endDate;
-
   const selectQuery = `
-  SELECT * from enquiry_forms 
-  WHERE createdAt between ? and ?;
+  SELECT *
+  FROM enquiry_forms
+  WHERE createdAt >= ? AND createdAt <= ?
+  ORDER BY createdAt DESC;
   `;
-  const selectValues = [formattedStartDate, formattedEndDate];
+  const selectValues = [formattedStartDate, formattedEndDate + " 23:59:59"];
 
   db.query(selectQuery, selectValues, (error, results) => {
     if (error) {
