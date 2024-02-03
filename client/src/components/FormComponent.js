@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { Spin } from "antd";
 import logo from "../assets/logo.png";
@@ -21,8 +21,6 @@ import {
 } from "@mui/material";
 
 import axios from "axios";
-import Header from "./Header";
-import Footer from "./Footer";
 const FormComponent = () => {
   const [formData, setFormData] = useState({
     name: "",
@@ -44,6 +42,8 @@ const FormComponent = () => {
     careerAspirations: "",
     admissionCounseling: "",
   });
+  const [ipAddress, setIpAddress] = useState("");
+  const [source, setSource] = useState("");
   const [phoneNumber, setPhoneNumber] = useState({
     countryCode: "in",
     value: "",
@@ -82,11 +82,12 @@ const FormComponent = () => {
     setLoading(true);
 
     const { data } = await axios.post(
-      "https://ligmr-form-admission.onrender.com/api/forms/applyForm",
+      "https://inquiry.egnioldigital.com/api/forms/applyForm",
       // "http://localhost:5001/api/forms/applyForm",
       formData
     );
     if (data.success) {
+      await addUserActivity("submitted");
       toast.success("Form submitted successfully");
       setFormData({
         name: "",
@@ -113,6 +114,45 @@ const FormComponent = () => {
     }
     setLoading(false);
   };
+
+  useEffect(() => {
+    // Function to get the query parameter from the URL
+    const getQueryParam = async (name) => {
+      const params = new URLSearchParams(window.location.search);
+      return params.get(name);
+    };
+
+    const fetchIpAddress = async () => {
+      try {
+        const response = await axios.get("https://api.ipify.org?format=json");
+        const ip = response.data.ip;
+        setIpAddress(ip);
+      } catch (error) {
+        console.error("Error fetching IP address:", error);
+      }
+    };
+
+    // Fetch source from the URL
+    const fetchSourceFromUrl = async () => {
+      const srcFromUrl = await getQueryParam("src");
+      setSource(srcFromUrl || "default"); // Use 'default' if src parameter is not present
+    };
+
+    fetchIpAddress();
+    fetchSourceFromUrl();
+  }, []);
+
+  const addUserActivity = async (request_type) => {
+    await axios.post(`http://localhost:5001/api/userAct/addActivity`, {
+      ipAddress,
+      source,
+      request_type,
+    });
+  };
+
+  useEffect(() => {
+    addUserActivity("normal");
+  }, [ipAddress !== "" && source !== ""]);
 
   return (
     <div className="items-center justify-center">

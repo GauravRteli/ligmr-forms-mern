@@ -12,12 +12,15 @@ app.use(
       "http://localhost:3000",
       "https://ligmr-admission-enquiry-form.vercel.app",
       "https://ligmrinquirydata.vercel.app",
+      "https://inquiryfr.egnioldigital.com",
+      "https://inquiry.ligmr.fr",
     ],
   })
 );
 
 app.use("/api/forms", require("./routes/form"));
 app.use("/api/auth", require("./routes/auth.route"));
+app.use("/api/userAct", require("./routes/useractivity.route"));
 
 app.listen(port, () => {
   console.log("Port is listining on " + port);
