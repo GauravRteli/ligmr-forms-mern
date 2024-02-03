@@ -56,11 +56,8 @@ const Footer = () => {
               <p className="">
                 <span className="font-semibold"> EMAIL: </span> <br />
                 <span className="text-slate-600">
-                  <a
-                    href="mailto:admissions@ligmr.fr"
-                    className="font-semibold"
-                  >
-                    admissions@ligmr.fr
+                  <a href="mailto:info@ligmr.fr" className="font-semibold">
+                    info@ligmr.fr
                   </a>
                 </span>
               </p>
