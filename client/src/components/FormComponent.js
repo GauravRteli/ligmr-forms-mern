@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { Spin } from "antd";
 import logo from "../assets/logo.png";
-import { saveAs } from "file-saver";
+// import { saveAs } from "file-saver";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
@@ -222,7 +222,7 @@ const FormComponent = () => {
           <h1 className="font-semibold text-3xl text-orange-500 text-center m-5">
             Application Form
           </h1>
-          <form handleSubmit={handleSubmit}>
+          <form>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2 items-center">
                 <TextField
@@ -657,10 +657,11 @@ const FormComponent = () => {
               </div>
             </div>
             <Button
-              type="submit"
+              // type="submit"
               variant="contained"
               color="primary"
               fullWidth
+              onClick = {handleSubmit}
               style={{ marginTop: "20px", padding: "10px" }}
               disabled={loading}
             >

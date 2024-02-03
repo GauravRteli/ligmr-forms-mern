@@ -109,6 +109,8 @@ router.post("/getPdfURL", async (req, res) => {
 router.post("/applyForm",upload.single("cv"), async (req, res) => {
   try {
     const studentData = req.body;
+    const fileStatus = req.file ? 1 : 0;  
+
     // let des = studentData?.destinationPreferences?.join(",");
     console.log(studentData)
     // Validate unique email and phone number
@@ -150,8 +152,8 @@ router.post("/applyForm",upload.single("cv"), async (req, res) => {
             }
 
             const insertQuery = `
-          INSERT INTO enquiry_forms (name, email, phoneNo, city, userType, fatherOccupation, qualification, course, fundingSource, budget, intake, experience, englishProficiency, appliedForFranceBefore, destinationPreferences, careerFieldInterest, careerAspirations, admissionCounseling)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+          INSERT INTO enquiry_forms (name, email, phoneNo, city, userType, fatherOccupation, qualification, course, fundingSource, budget, intake, experience, englishProficiency, appliedForFranceBefore, destinationPreferences, careerFieldInterest, careerAspirations, admissionCounseling,fileStatus)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?);
         `;
 
             const insertValues = [
@@ -173,6 +175,7 @@ router.post("/applyForm",upload.single("cv"), async (req, res) => {
               studentData.careerFieldInterest,
               studentData.careerAspirations,
               studentData.admissionCounseling,
+              fileStatus
             ];
 
             db.query(
