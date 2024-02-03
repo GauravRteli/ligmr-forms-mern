@@ -1,8 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { Spin } from "antd";
-import logo from "../assets/logo.png";
-import { saveAs } from "file-saver";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
@@ -48,9 +46,6 @@ const FormComponent = () => {
   const pdfUrl =
     "https://github.com/GauravRteli/ligmr-forms-mern/files/14152345/LIGMR_brochure.pdf";
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
   const [downloading, setDownloading] = useState(false);
   const [ipAddress, setIpAddress] = useState("");
   const [source, setSource] = useState("");
@@ -63,10 +58,9 @@ const FormComponent = () => {
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
-    console.log(name);
+
     if (type === "file") {
       const file = event.target.files[0];
-      console.log(file);
 
       if (file.size > 5 * 1024 * 1024) {
         toast.error("Cover Letter must be less than 5 MB in size");
@@ -74,7 +68,6 @@ const FormComponent = () => {
       }
 
       if (file && file.type === "application/pdf") {
-        console.log(file.name);
         setFormData({
           ...formData,
           [name]: file,
@@ -132,7 +125,7 @@ const FormComponent = () => {
     }
 
     const resultString = formData.destinationPreferences.join(",");
-    console.log(resultString);
+
     const formDataObject = createFormDataObject({
       ...formData,
       destinationPreferences: resultString,
