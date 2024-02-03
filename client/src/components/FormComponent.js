@@ -42,7 +42,13 @@ const FormComponent = () => {
     careerAspirations: "",
     admissionCounseling: "",
     cv: null,
+    cvName: ""
   });
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
   const [ipAddress, setIpAddress] = useState("");
   const [source, setSource] = useState("");
   const [phoneNumber, setPhoneNumber] = useState({
@@ -54,7 +60,7 @@ const FormComponent = () => {
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
-
+    console.log(name);
     if (type === "file") {
       const file = event.target.files[0];
       console.log(file);
@@ -65,28 +71,40 @@ const FormComponent = () => {
       }
 
       if (file && file.type === "application/pdf") {
+        console.log(file.name)
         setFormData({
           ...formData,
           [name]: file,
           [name + "Name"]: file.name,
         });
+        return ;
       } else {
         toast.error("Please select a PDF file for cover letter.");
         return;
       }
-    }
-
-    // Handle checkbox separately
-    if (type === "checkbox") {
-      const updatedPreferences = checked
-        ? [...formData.destinationPreferences, name]
-        : formData.destinationPreferences.filter((pref) => pref !== name);
-      setFormData({ ...formData, destinationPreferences: updatedPreferences });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+    } 
+      // Handle checkbox separately
+      if (type === "checkbox") {
+        const updatedPreferences = checked
+          ? [...formData.destinationPreferences, name]
+          : formData.destinationPreferences.filter((pref) => pref !== name);
+        setFormData({
+          ...formData,
+          destinationPreferences: updatedPreferences,
+        });
+      } else {
+        setFormData({ ...formData, [name]: value });
+      }
+    
   };
 
+  const createFormDataObject = (initialState) => {
+    const fdx = new FormData();
+    for (const [key, value] of Object.entries(initialState)) {
+      fdx.append(key, value);
+    }
+    return fdx;
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Handle form submission logic here
@@ -103,12 +121,18 @@ const FormComponent = () => {
       return; // Prevent further processing if validation fails
     }
 
+    const resultString = formData.destinationPreferences.join(',');
+    console.log(resultString);
+    const formDataObject = createFormDataObject({
+      ...formData,
+      destinationPreferences: resultString,
+    });
     setLoading(true);
 
     const { data } = await axios.post(
-      "https://inquiry.egnioldigital.com/api/forms/applyForm",
-      // "http://localhost:5001/api/forms/applyForm",
-      formData
+      // "https://inquiry.egnioldigital.com/api/forms/applyForm",
+      "http://localhost:5001/api/forms/applyForm",
+      formDataObject
     );
     if (data.success) {
       await addUserActivity("submitted");
@@ -614,7 +638,7 @@ const FormComponent = () => {
                   <button
                     type="button"
                     className={`px-2 py-1 mx-1 rounded-sm ${
-                      formData.cv
+                      formData.cvName
                         ? "bg-blue-900 text-white"
                         : "bg-gray-300 text-black"
                     }`}
@@ -622,7 +646,7 @@ const FormComponent = () => {
                     {formData.cv ? "File Selected" : "Choose File"}
                   </button>
                   <span className="label" data-js-label>
-                    {formData.cv ? formData.cv : "No file selected"}
+                    {formData.cv ? formData.cvName : "No file selected"}
                   </span>
                 </div>
               </div>

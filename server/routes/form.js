@@ -23,6 +23,10 @@ const s3Client = new S3Client({
     secretAccessKey: process.env.SECRET_KEY,
   },
 });
+console.log(process.env.REGION)
+console.log(process.env.ACCESS_KEY_ID)
+console.log(process.env.SECRET_KEY)
+
 
 const upload = multer({
   storage: multerS3({
@@ -107,8 +111,8 @@ router.post("/getPdfURL", async (req, res) => {
 router.post("/applyForm",upload.single("cv"), async (req, res) => {
   try {
     const studentData = req.body;
-    let des = studentData?.destinationPreferences?.join(",");
-
+    // let des = studentData?.destinationPreferences?.join(",");
+    console.log(studentData)
     // Validate unique email and phone number
     const emailCheckQuery = `SELECT COUNT(*) as count FROM enquiry_forms WHERE email = ?`;
     const phoneCheckQuery = `SELECT COUNT(*) as count FROM enquiry_forms WHERE phoneNo = ?`;
@@ -167,7 +171,7 @@ router.post("/applyForm",upload.single("cv"), async (req, res) => {
               studentData.experience,
               studentData.englishProficiency,
               studentData.appliedForFranceBefore,
-              des,
+              studentData.destinationPreferences,
               studentData.careerFieldInterest,
               studentData.careerAspirations,
               studentData.admissionCounseling,
@@ -213,7 +217,7 @@ router.post("/applyForm",upload.single("cv"), async (req, res) => {
                 <li>Experience: ${studentData.experience}</li>
                 <li>English Proficiency: ${studentData.englishProficiency}</li>
                 <li>Applied for France Before: ${studentData.appliedForFranceBefore}</li>
-                <li>Destination Preferences: ${des}</li>
+                <li>Destination Preferences: ${studentData.destinationPreferences}</li>
                 <li>Career Field Interest: ${studentData.careerFieldInterest}</li>
                 <li>Career Aspirations: ${studentData.careerAspirations}</li>
                 <li>Admission Counseling: ${studentData.admissionCounseling}</li>
