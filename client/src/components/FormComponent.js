@@ -2,7 +2,7 @@ import React, { useEffect, useState } from "react";
 import { Toaster, toast } from "react-hot-toast";
 import { Spin } from "antd";
 import logo from "../assets/logo.png";
-
+import { saveAs } from "file-saver";
 import PhoneInput from "react-phone-input-2";
 import "react-phone-input-2/lib/style.css";
 
@@ -42,8 +42,11 @@ const FormComponent = () => {
     careerAspirations: "",
     admissionCounseling: "",
     cv: null,
-    cvName: ""
+    cvName: "",
   });
+
+  const pdfUrl =
+    "https://github.com/harshilsarariya/UniversityPortal/files/14152284/LIGMR_Brochure.pdf";
 
   useEffect(() => {
     console.log(formData);
@@ -71,31 +74,30 @@ const FormComponent = () => {
       }
 
       if (file && file.type === "application/pdf") {
-        console.log(file.name)
+        console.log(file.name);
         setFormData({
           ...formData,
           [name]: file,
           [name + "Name"]: file.name,
         });
-        return ;
+        return;
       } else {
         toast.error("Please select a PDF file for cover letter.");
         return;
       }
-    } 
-      // Handle checkbox separately
-      if (type === "checkbox") {
-        const updatedPreferences = checked
-          ? [...formData.destinationPreferences, name]
-          : formData.destinationPreferences.filter((pref) => pref !== name);
-        setFormData({
-          ...formData,
-          destinationPreferences: updatedPreferences,
-        });
-      } else {
-        setFormData({ ...formData, [name]: value });
-      }
-    
+    }
+    // Handle checkbox separately
+    if (type === "checkbox") {
+      const updatedPreferences = checked
+        ? [...formData.destinationPreferences, name]
+        : formData.destinationPreferences.filter((pref) => pref !== name);
+      setFormData({
+        ...formData,
+        destinationPreferences: updatedPreferences,
+      });
+    } else {
+      setFormData({ ...formData, [name]: value });
+    }
   };
 
   const createFormDataObject = (initialState) => {
@@ -121,7 +123,7 @@ const FormComponent = () => {
       return; // Prevent further processing if validation fails
     }
 
-    const resultString = formData.destinationPreferences.join(',');
+    const resultString = formData.destinationPreferences.join(",");
     console.log(resultString);
     const formDataObject = createFormDataObject({
       ...formData,
@@ -217,7 +219,7 @@ const FormComponent = () => {
           <h1 className="font-semibold text-3xl text-orange-500 text-center m-5">
             Application Form
           </h1>
-          <form onSubmit={handleSubmit}>
+          <form handleSubmit={handleSubmit}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2 items-center">
                 <TextField
@@ -651,7 +653,6 @@ const FormComponent = () => {
                 </div>
               </div>
             </div>
-
             <Button
               type="submit"
               variant="contained"
@@ -670,6 +671,11 @@ const FormComponent = () => {
               )}
             </Button>
           </form>
+          <div className="border-b mt-5 text-center p-2 cursor-pointer bg-green-600 hover:bg-green-700  rounded-sm text-white">
+            <a href={pdfUrl} download="LIGMR-Brochure.pdf">
+              DOWNLOAD BROCHURE
+            </a>
+          </div>
         </Paper>
       </Container>
     </div>
