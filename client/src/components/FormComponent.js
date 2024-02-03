@@ -143,11 +143,14 @@ const FormComponent = () => {
   }, []);
 
   const addUserActivity = async (request_type) => {
-    await axios.post(`http://localhost:5001/api/userAct/addActivity`, {
-      ipAddress,
-      source,
-      request_type,
-    });
+    await axios.post(
+      `https://inquiry.egnioldigital.com/api/userAct/addActivity`,
+      {
+        ipAddress,
+        source,
+        request_type,
+      }
+    );
   };
 
   useEffect(() => {
