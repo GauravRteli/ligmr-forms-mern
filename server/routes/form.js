@@ -17,10 +17,10 @@ const multerS3 = require("multer-s3");
 
 // AWS configurations ...........
 const s3Client = new S3Client({
-  region: "process.env.REGION",
+  region: process.env.REGION,
   credentials: {
-    accessKeyId: "process.env.ACCESS_KEY",
-    secretAccessKey: "process.env.SECRET_KEY",
+    accessKeyId: process.env.ACCESS_KEY,
+    secretAccessKey: process.env.SECRET_KEY,
   },
 });
 // console.log(process.env.REGION)
@@ -31,9 +31,7 @@ const s3Client = new S3Client({
 const upload = multer({
   storage: multerS3({
     s3: s3Client,
-    // bucket: "ligmr-admissions",
-    // acl: "public",
-    bucket: "process.env.BUCKET_NAME",
+    bucket: process.env.BUCKET_NAME,
     acl: "private",
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname });
@@ -49,7 +47,7 @@ const upload = multer({
 
 async function checkIfFileExists(key) {
   const params = {
-    Bucket: "process.env.BUCKET_NAME",
+    Bucket: process.env.BUCKET_NAME,
     Key: key,
   };
 
