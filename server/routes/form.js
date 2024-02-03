@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router();
 const db = require("../db");
-
 const {
   S3Client,
   GetObjectCommand,
@@ -14,16 +13,11 @@ const multerS3 = require("multer-s3");
 // AWS configurations ...........
 const s3Client = new S3Client({
   region: process.env.REGION,
-  region: process.env.REGION,
   credentials: {
     accessKeyId: process.env.ACCESS_KEY,
     secretAccessKey: process.env.SECRET_KEY,
   },
 });
-// console.log(process.env.REGION)
-// console.log(process.env.ACCESS_KEY_ID)
-// console.log(process.env.SECRET_KEY)
-
 
 const upload = multer({
   storage: multerS3({
@@ -142,10 +136,10 @@ router.post("/check-email-phone", async (req, res) => {
 router.post("/applyForm", upload.single("cv"), async (req, res) => {
   try {
     const studentData = req.body;
-    const fileStatus = req.file ? 1 : 0;  
+    const fileStatus = req.file ? 1 : 0;
 
     // let des = studentData?.destinationPreferences?.join(",");
-    console.log(studentData);
+
     // Validate unique email and phone number
     // const emailCheckQuery = `SELECT COUNT(*) as count FROM enquiry_forms WHERE email = ?`;
     // const phoneCheckQuery = `SELECT COUNT(*) as count FROM enquiry_forms WHERE phoneNo = ?`;
@@ -184,32 +178,32 @@ router.post("/applyForm", upload.single("cv"), async (req, res) => {
     //           });
     //         }
 
-            const insertQuery = `
+    const insertQuery = `
           INSERT INTO enquiry_forms (name, email, phoneNo, city, userType, fatherOccupation, qualification, course, fundingSource, budget, intake, experience, englishProficiency, appliedForFranceBefore, destinationPreferences, careerFieldInterest, careerAspirations, admissionCounseling,fileStatus)
           VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?);
         `;
 
-            const insertValues = [
-              studentData.name,
-              studentData.email,
-              studentData.phoneNo,
-              studentData.city,
-              studentData.userType,
-              studentData.fatherOccupation,
-              studentData.qualification,
-              studentData.course,
-              studentData.fundingSource,
-              studentData.budget,
-              studentData.intake,
-              studentData.experience,
-              studentData.englishProficiency,
-              studentData.appliedForFranceBefore,
-              studentData.destinationPreferences,
-              studentData.careerFieldInterest,
-              studentData.careerAspirations,
-              studentData.admissionCounseling,
-              fileStatus
-            ];
+    const insertValues = [
+      studentData.name,
+      studentData.email,
+      studentData.phoneNo,
+      studentData.city,
+      studentData.userType,
+      studentData.fatherOccupation,
+      studentData.qualification,
+      studentData.course,
+      studentData.fundingSource,
+      studentData.budget,
+      studentData.intake,
+      studentData.experience,
+      studentData.englishProficiency,
+      studentData.appliedForFranceBefore,
+      studentData.destinationPreferences,
+      studentData.careerFieldInterest,
+      studentData.careerAspirations,
+      studentData.admissionCounseling,
+      fileStatus,
+    ];
 
     db.query(insertQuery, insertValues, async (insertError, results) => {
       if (insertError) {
@@ -220,7 +214,7 @@ router.post("/applyForm", upload.single("cv"), async (req, res) => {
         });
       }
 
-                const formId = results.insertId;
+      const formId = results.insertId;
 
       return res.send({ success: true, formId });
     });
