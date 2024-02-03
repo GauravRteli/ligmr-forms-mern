@@ -44,12 +44,9 @@ const FormComponent = () => {
   });
 
   const pdfUrl =
-    "https://github.com/harshilsarariya/UniversityPortal/files/14152284/LIGMR_Brochure.pdf";
+    "https://github.com/GauravRteli/ligmr-forms-mern/files/14152345/LIGMR_brochure.pdf";
 
-  useEffect(() => {
-    console.log(formData);
-  }, [formData]);
-
+  const [downloading, setDownloading] = useState(false);
   const [ipAddress, setIpAddress] = useState("");
   const [source, setSource] = useState("");
   const [phoneNumber, setPhoneNumber] = useState({
@@ -61,10 +58,9 @@ const FormComponent = () => {
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
-    console.log(name);
+
     if (type === "file") {
       const file = event.target.files[0];
-      console.log(file);
 
       if (file.size > 5 * 1024 * 1024) {
         toast.error("Cover Letter must be less than 5 MB in size");
@@ -72,7 +68,6 @@ const FormComponent = () => {
       }
 
       if (file && file.type === "application/pdf") {
-        console.log(file.name);
         setFormData({
           ...formData,
           [name]: file,
@@ -104,6 +99,14 @@ const FormComponent = () => {
       fdx.append(key, value);
     }
     return fdx;
+  };
+  const handleDownload = () => {
+    setDownloading(true);
+
+    // Simulate download delay (replace with actual download logic)
+    setTimeout(() => {
+      setDownloading(false);
+    }, 2000);
   };
 
   const checkEmailorPhoneAlreadyExists = async () => {
@@ -143,7 +146,7 @@ const FormComponent = () => {
     }
 
     const resultString = formData.destinationPreferences.join(",");
-    console.log(resultString);
+
     const formDataObject = createFormDataObject({
       ...formData,
       destinationPreferences: resultString,
@@ -676,10 +679,11 @@ const FormComponent = () => {
               </div>
             </div>
             <Button
-              type="submit"
+              // type="submit"
               variant="contained"
               color="primary"
               fullWidth
+              onClick = {handleSubmit}
               style={{ marginTop: "20px", padding: "10px" }}
               // disabled={loading}
             >
@@ -693,11 +697,18 @@ const FormComponent = () => {
               )}
             </Button>
           </form>
-          <div className="border-b mt-5 text-center p-2 cursor-pointer bg-green-600 hover:bg-green-700  rounded-sm text-white">
-            <a href={pdfUrl} download="LIGMR-Brochure.pdf">
-              DOWNLOAD BROCHURE
+
+          <Spin spinning={downloading} size="default">
+            <a
+              href={pdfUrl}
+              onClick={handleDownload}
+              download="LIGMR-Brochure.pdf"
+            >
+              <h1 className="border-b font-semibold mt-5 text-center p-2 cursor-pointer bg-green-600 hover:bg-green-700  rounded-sm text-white ">
+                DOWNLOAD BROCHURE
+              </h1>
             </a>
-          </div>
+          </Spin>
         </Paper>
       </Container>
     </div>

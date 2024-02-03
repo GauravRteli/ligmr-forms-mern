@@ -1,14 +1,10 @@
 const express = require("express");
 const router = express.Router();
-const sendMail = require("../helper/mailUtils");
 const db = require("../db");
 
 const {
   S3Client,
-  PutObjectCommand,
-  ListObjectsV2Command,
   GetObjectCommand,
-  DeleteObjectCommand,
   HeadObjectCommand,
 } = require("@aws-sdk/client-s3");
 const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
@@ -17,6 +13,7 @@ const multerS3 = require("multer-s3");
 
 // AWS configurations ...........
 const s3Client = new S3Client({
+  region: process.env.REGION,
   region: process.env.REGION,
   credentials: {
     accessKeyId: process.env.ACCESS_KEY,
@@ -27,9 +24,11 @@ const s3Client = new S3Client({
 // console.log(process.env.ACCESS_KEY_ID)
 // console.log(process.env.SECRET_KEY)
 
+
 const upload = multer({
   storage: multerS3({
     s3: s3Client,
+    bucket: process.env.BUCKET_NAME,
     // bucket: "ligmr-admissions",
     // acl: "public",
     bucket: process.env.BUCKET_NAME,
@@ -48,7 +47,7 @@ const upload = multer({
 
 async function checkIfFileExists(key) {
   const params = {
-    Bucket: "process.env.BUCKET_NAME",
+    Bucket: process.env.BUCKET_NAME,
     Key: key,
   };
 
@@ -143,6 +142,8 @@ router.post("/check-email-phone", async (req, res) => {
 router.post("/applyForm", upload.single("cv"), async (req, res) => {
   try {
     const studentData = req.body;
+    const fileStatus = req.file ? 1 : 0;  
+
     // let des = studentData?.destinationPreferences?.join(",");
     console.log(studentData);
     // Validate unique email and phone number
@@ -183,31 +184,32 @@ router.post("/applyForm", upload.single("cv"), async (req, res) => {
     //           });
     //         }
 
-    const insertQuery = `
-          INSERT INTO enquiry_forms (name, email, phoneNo, city, userType, fatherOccupation, qualification, course, fundingSource, budget, intake, experience, englishProficiency, appliedForFranceBefore, destinationPreferences, careerFieldInterest, careerAspirations, admissionCounseling)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+            const insertQuery = `
+          INSERT INTO enquiry_forms (name, email, phoneNo, city, userType, fatherOccupation, qualification, course, fundingSource, budget, intake, experience, englishProficiency, appliedForFranceBefore, destinationPreferences, careerFieldInterest, careerAspirations, admissionCounseling,fileStatus)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?);
         `;
 
-    const insertValues = [
-      studentData.name,
-      studentData.email,
-      studentData.phoneNo,
-      studentData.city,
-      studentData.userType,
-      studentData.fatherOccupation,
-      studentData.qualification,
-      studentData.course,
-      studentData.fundingSource,
-      studentData.budget,
-      studentData.intake,
-      studentData.experience,
-      studentData.englishProficiency,
-      studentData.appliedForFranceBefore,
-      studentData.destinationPreferences,
-      studentData.careerFieldInterest,
-      studentData.careerAspirations,
-      studentData.admissionCounseling,
-    ];
+            const insertValues = [
+              studentData.name,
+              studentData.email,
+              studentData.phoneNo,
+              studentData.city,
+              studentData.userType,
+              studentData.fatherOccupation,
+              studentData.qualification,
+              studentData.course,
+              studentData.fundingSource,
+              studentData.budget,
+              studentData.intake,
+              studentData.experience,
+              studentData.englishProficiency,
+              studentData.appliedForFranceBefore,
+              studentData.destinationPreferences,
+              studentData.careerFieldInterest,
+              studentData.careerAspirations,
+              studentData.admissionCounseling,
+              fileStatus
+            ];
 
     db.query(insertQuery, insertValues, async (insertError, results) => {
       if (insertError) {
@@ -218,51 +220,7 @@ router.post("/applyForm", upload.single("cv"), async (req, res) => {
         });
       }
 
-      const formId = results.insertId;
-
-      // Rest of your email sending logic remains unchanged
-      const emailTemplate = `
-                <!DOCTYPE html>
-                <html>
-                <head>
-                <title>New Student Enquiry</title>
-                </head>
-                <body>
-                <h1>New Student Enquiry Form Submitted</h1>
-                <p>Dear Admin,</p>
-                <p>A new student enquiry form has been submitted with the following details:</p>
-                <ul>
-                <li>Name: ${studentData.name}</li>
-                <li>Phone No.: ${studentData.phoneNo}</li>
-                <li>Email: ${studentData.email}</li>
-                <li>City: ${studentData.city}</li>
-                <li>User Type: ${studentData.userType}</li>
-                <li>Father's Occupation: ${studentData.fatherOccupation}</li>
-                <li>Qualification: ${studentData.qualification}</li>
-                <li>Course: ${studentData.course}</li>
-                <li>Funding Source: ${studentData.fundingSource}</li>
-                <li>Budget: ${studentData.budget}</li>
-                <li>Intake: ${studentData.intake}</li>
-                <li>Experience: ${studentData.experience}</li>
-                <li>English Proficiency: ${studentData.englishProficiency}</li>
-                <li>Applied for France Before: ${studentData.appliedForFranceBefore}</li>
-                <li>Destination Preferences: ${studentData.destinationPreferences}</li>
-                <li>Career Field Interest: ${studentData.careerFieldInterest}</li>
-                <li>Career Aspirations: ${studentData.careerAspirations}</li>
-                <li>Admission Counseling: ${studentData.admissionCounseling}</li>
-                </ul>
-                <p>Please review the complete student information and take necessary actions.</p>
-                <p>Sincerely,</p>
-                <p>Your Student Enquiry System</p>
-                </body>
-                </html>
-                `;
-      await sendMail(
-        "harshvardhan@egniol.in",
-        // "harshilprajapati9192@gmail.com",
-        `New Student Enquiry #${formId}`,
-        emailTemplate
-      );
+                const formId = results.insertId;
 
       return res.send({ success: true, formId });
     });
