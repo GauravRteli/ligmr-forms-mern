@@ -108,6 +108,23 @@ const FormComponent = () => {
       setDownloading(false);
     }, 2000);
   };
+
+  const checkEmailorPhoneAlreadyExists = async () => {
+    const { data } = await axios.post(
+      // "https://inquiry.egnioldigital.com/api/forms/applyForm",
+      "http://localhost:5001/api/forms/check-email-phone",
+      {
+        email: formData.email,
+        phoneNo: formData.phoneNo,
+      }
+    );
+    if(!data.success){
+      toast.error(data.msg)
+      return true;
+    }
+    return false;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Handle form submission logic here
@@ -122,6 +139,10 @@ const FormComponent = () => {
     if (formData.destinationPreferences.length === 0) {
       toast.error("At least one destination must be selected");
       return; // Prevent further processing if validation fails
+    }
+
+    if(await checkEmailorPhoneAlreadyExists()){
+      return ;
     }
 
     const resultString = formData.destinationPreferences.join(",");
@@ -223,7 +244,7 @@ const FormComponent = () => {
           <h1 className="font-semibold text-3xl text-orange-500 text-center m-5">
             Application Form
           </h1>
-          <form handleSubmit={handleSubmit}>
+          <form onSubmit={handleSubmit}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2 items-center">
                 <TextField
@@ -658,12 +679,13 @@ const FormComponent = () => {
               </div>
             </div>
             <Button
-              type="submit"
+              // type="submit"
               variant="contained"
               color="primary"
               fullWidth
+              onClick = {handleSubmit}
               style={{ marginTop: "20px", padding: "10px" }}
-              disabled={loading}
+              // disabled={loading}
             >
               {/* Submit */}
               {loading ? (

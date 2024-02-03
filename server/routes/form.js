@@ -13,16 +13,24 @@ const multerS3 = require("multer-s3");
 
 // AWS configurations ...........
 const s3Client = new S3Client({
-  region: "process.env.REGION",
+  region: process.env.REGION,
+  region: process.env.REGION,
   credentials: {
     accessKeyId: process.env.ACCESS_KEY,
     secretAccessKey: process.env.SECRET_KEY,
   },
 });
+// console.log(process.env.REGION)
+// console.log(process.env.ACCESS_KEY_ID)
+// console.log(process.env.SECRET_KEY)
+
 
 const upload = multer({
   storage: multerS3({
     s3: s3Client,
+    bucket: process.env.BUCKET_NAME,
+    // bucket: "ligmr-admissions",
+    // acl: "public",
     bucket: process.env.BUCKET_NAME,
     acl: "private",
     metadata: (req, file, cb) => {
@@ -95,51 +103,90 @@ router.post("/getPdfURL", async (req, res) => {
   }
 });
 
+const dbQueryAsync = (sql, params) => {
+  return new Promise((resolve, reject) => {
+    db.query(sql, params, (err, results) => {
+      if (err) {
+        reject(err);
+      } else {
+        resolve(results);
+      }
+    });
+  });
+};
+router.post("/check-email-phone", async (req, res) => {
+  const emailCheckQuery = `SELECT COUNT(*) as count FROM enquiry_forms WHERE email = ?`;
+  const phoneCheckQuery = `SELECT COUNT(*) as count FROM enquiry_forms WHERE phoneNo = ?`;
+
+  const [results] = await dbQueryAsync(emailCheckQuery, [req.body.email]);
+  if (results.count > 0) {
+    return res.status(200).json({
+      success: false,
+      msg: "Email already exists",
+    });
+  }
+
+  const [results1] = await dbQueryAsync(phoneCheckQuery, [req.body.phoneNo]);
+  if (results1.count > 0) {
+    return res.status(200).json({
+      success: false,
+      msg: "Phone number already exists",
+    });
+  }
+
+  return res.status(200).json({
+    success: true,
+  });
+});
+
 router.post("/applyForm", upload.single("cv"), async (req, res) => {
   try {
     const studentData = req.body;
+    const fileStatus = req.file ? 1 : 0;  
 
+    // let des = studentData?.destinationPreferences?.join(",");
+    console.log(studentData);
     // Validate unique email and phone number
-    const emailCheckQuery = `SELECT COUNT(*) as count FROM enquiry_forms WHERE email = ?`;
-    const phoneCheckQuery = `SELECT COUNT(*) as count FROM enquiry_forms WHERE phoneNo = ?`;
+    // const emailCheckQuery = `SELECT COUNT(*) as count FROM enquiry_forms WHERE email = ?`;
+    // const phoneCheckQuery = `SELECT COUNT(*) as count FROM enquiry_forms WHERE phoneNo = ?`;
 
-    const emailCheckValues = [studentData.email];
-    const phoneCheckValues = [studentData.phoneNo];
+    // const emailCheckValues = [studentData.email];
+    // const phoneCheckValues = [studentData.phoneNo];
 
-    db.query(
-      emailCheckQuery,
-      emailCheckValues,
-      async (emailError, emailResults) => {
-        const emailCount = emailResults[0].count;
+    // db.query(
+    //   emailCheckQuery,
+    //   emailCheckValues,
+    //   async (emailError, emailResults) => {
+    //     const emailCount = emailResults[0].count;
 
-        if (emailCount > 0) {
-          return res.send({ success: false, error: "Email already exists" });
-        }
+    //     if (emailCount > 0) {
+    //       return res.send({ success: false, error: "Email already exists" });
+    //     }
 
-        db.query(
-          phoneCheckQuery,
-          phoneCheckValues,
-          async (phoneError, phoneResults) => {
-            if (phoneError) {
-              console.error(phoneError);
-              return res.send({
-                success: false,
-                error: "Phone number validation error",
-              });
-            }
+    //     db.query(
+    //       phoneCheckQuery,
+    //       phoneCheckValues,
+    //       async (phoneError, phoneResults) => {
+    //         if (phoneError) {
+    //           console.error(phoneError);
+    //           return res.send({
+    //             success: false,
+    //             error: "Phone number validation error",
+    //           });
+    //         }
 
-            const phoneCount = phoneResults[0].count;
+    //         const phoneCount = phoneResults[0].count;
 
-            if (phoneCount > 0) {
-              return res.send({
-                success: false,
-                error: "Phone number already exists",
-              });
-            }
+    //         if (phoneCount > 0) {
+    //           return res.send({
+    //             success: false,
+    //             error: "Phone number already exists",
+    //           });
+    //         }
 
             const insertQuery = `
-          INSERT INTO enquiry_forms (name, email, phoneNo, city, userType, fatherOccupation, qualification, course, fundingSource, budget, intake, experience, englishProficiency, appliedForFranceBefore, destinationPreferences, careerFieldInterest, careerAspirations, admissionCounseling)
-          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?);
+          INSERT INTO enquiry_forms (name, email, phoneNo, city, userType, fatherOccupation, qualification, course, fundingSource, budget, intake, experience, englishProficiency, appliedForFranceBefore, destinationPreferences, careerFieldInterest, careerAspirations, admissionCounseling,fileStatus)
+          VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?);
         `;
 
             const insertValues = [
@@ -161,29 +208,26 @@ router.post("/applyForm", upload.single("cv"), async (req, res) => {
               studentData.careerFieldInterest,
               studentData.careerAspirations,
               studentData.admissionCounseling,
+              fileStatus
             ];
 
-            db.query(
-              insertQuery,
-              insertValues,
-              async (insertError, results) => {
-                if (insertError) {
-                  console.error(insertError);
-                  return res.send({
-                    success: false,
-                    error: "Failed to save form data to the database",
-                  });
-                }
+    db.query(insertQuery, insertValues, async (insertError, results) => {
+      if (insertError) {
+        console.error(insertError);
+        return res.send({
+          success: false,
+          error: "Failed to save form data to the database",
+        });
+      }
 
                 const formId = results.insertId;
 
-                return res.send({ success: true, formId });
-              }
-            );
-          }
-        );
-      }
-    );
+      return res.send({ success: true, formId });
+    });
+    // }
+    //     );
+    //   }
+    // );
   } catch (error) {
     console.error(error);
     return res.send({ success: false, error: "Internal server error" });
