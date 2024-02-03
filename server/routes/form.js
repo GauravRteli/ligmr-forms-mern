@@ -17,15 +17,15 @@ const multerS3 = require("multer-s3");
 
 // AWS configurations ...........
 const s3Client = new S3Client({
-  region: process.env.REGION,
+  region: "process.env.REGION",
   credentials: {
-    accessKeyId: process.env.ACCESS_KEY_ID,
-    secretAccessKey: process.env.SECRET_KEY,
+    accessKeyId: "process.env.ACCESS_KEY",
+    secretAccessKey: "process.env.SECRET_KEY",
   },
 });
-console.log(process.env.REGION)
-console.log(process.env.ACCESS_KEY_ID)
-console.log(process.env.SECRET_KEY)
+// console.log(process.env.REGION)
+// console.log(process.env.ACCESS_KEY_ID)
+// console.log(process.env.SECRET_KEY)
 
 
 const upload = multer({
@@ -33,7 +33,7 @@ const upload = multer({
     s3: s3Client,
     // bucket: "ligmr-admissions",
     // acl: "public",
-    bucket: "neelnsoni13-bucket2-private",
+    bucket: "process.env.BUCKET_NAME",
     acl: "private",
     metadata: (req, file, cb) => {
       cb(null, { fieldName: file.fieldname });
@@ -49,7 +49,7 @@ const upload = multer({
 
 async function checkIfFileExists(key) {
   const params = {
-    Bucket: "neelnsoni13-bucket2-private",
+    Bucket: "process.env.BUCKET_NAME",
     Key: key,
   };
 
@@ -80,7 +80,7 @@ const getPdfUrl = async (key) => {
   const url = await getSignedUrl(
     s3Client,
     new GetObjectCommand({
-      Bucket: "neelnsoni13-bucket2-private",
+      Bucket: "ligmrinquiryform",
       Key: key,
     }),
     { expiresIn: 300 }
