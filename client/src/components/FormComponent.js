@@ -689,7 +689,7 @@ const FormComponent = () => {
               onClick={handleDownload}
               download="LIGMR-Brochure.pdf"
             >
-              <h1 className="border-b  mt-5 text-center p-2 cursor-pointer bg-green-600 hover:bg-green-700  rounded-sm text-white ">
+              <h1 className="border-b font-semibold mt-5 text-center p-2 cursor-pointer bg-green-600 hover:bg-green-700  rounded-sm text-white ">
                 DOWNLOAD BROCHURE
               </h1>
             </a>
