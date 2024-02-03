@@ -3,7 +3,64 @@ const router = express.Router();
 const sendMail = require("../helper/mailUtils");
 const db = require("../db");
 
-router.post("/applyForm", async (req, res) => {
+const {
+  S3Client,
+  PutObjectCommand,
+  ListObjectsV2Command,
+  GetObjectCommand,
+  DeleteObjectCommand,
+  HeadObjectCommand,
+} = require("@aws-sdk/client-s3");
+const { getSignedUrl } = require("@aws-sdk/s3-request-presigner");
+const multer = require("multer");
+const multerS3 = require("multer-s3");
+
+// AWS configurations ...........
+const s3Client = new S3Client({
+  region: process.env.REGION,
+  credentials: {
+    accessKeyId: process.env.ACCESS_KEY_ID,
+    secretAccessKey: process.env.SECRET_KEY,
+  },
+});
+
+const upload = multer({
+  storage: multerS3({
+    s3: s3Client,
+    // bucket: "ligmr-admissions",
+    // acl: "public",
+    bucket: "neelnsoni13-bucket2-private",
+    acl: "private",
+    metadata: (req, file, cb) => {
+      cb(null, { fieldName: file.fieldname });
+    },
+    key: (req, file, cb) => {
+      let fieldName = file.fieldname; // Access the field name
+      cb(null, `uploads/inquiry-form/${req.body.email}/${fieldName}.pdf`);
+    },
+    // to always set the content type to view the file in the browser
+    contentType: multerS3.AUTO_CONTENT_TYPE,
+  }),
+});
+router.post("/getPdfURL", async (req, res) => {
+  try {
+    // uploads/inquiry-form/email/cv.pdf
+    const { key } = req.body;
+    const url = await getPdfUrl(key);
+    return res.status(200).json({
+      success: true,
+      url,
+    });
+  } catch (error) {
+    console.error("Error getting object URL:", error);
+    res.status(500).json({ error: "Internal Server Error" });
+  }
+});
+
+
+
+
+router.post("/applyForm",upload.single("cv"), async (req, res) => {
   try {
     const studentData = req.body;
     let des = studentData?.destinationPreferences?.join(",");
