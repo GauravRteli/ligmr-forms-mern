@@ -46,12 +46,12 @@ const FormComponent = () => {
   });
 
   const pdfUrl =
-    "https://github.com/harshilsarariya/UniversityPortal/files/14152284/LIGMR_Brochure.pdf";
+    "https://github.com/GauravRteli/ligmr-forms-mern/files/14152345/LIGMR_brochure.pdf";
 
   useEffect(() => {
     console.log(formData);
   }, [formData]);
-
+  const [downloading, setDownloading] = useState(false);
   const [ipAddress, setIpAddress] = useState("");
   const [source, setSource] = useState("");
   const [phoneNumber, setPhoneNumber] = useState({
@@ -106,6 +106,14 @@ const FormComponent = () => {
       fdx.append(key, value);
     }
     return fdx;
+  };
+  const handleDownload = () => {
+    setDownloading(true);
+
+    // Simulate download delay (replace with actual download logic)
+    setTimeout(() => {
+      setDownloading(false);
+    }, 2000);
   };
   const handleSubmit = async (event) => {
     event.preventDefault();
@@ -674,11 +682,18 @@ const FormComponent = () => {
               )}
             </Button>
           </form>
-          <div className="border-b mt-5 text-center p-2 cursor-pointer bg-green-600 hover:bg-green-700  rounded-sm text-white">
-            <a href={pdfUrl} download="LIGMR-Brochure.pdf">
-              DOWNLOAD BROCHURE
+
+          <Spin spinning={downloading} size="default">
+            <a
+              href={pdfUrl}
+              onClick={handleDownload}
+              download="LIGMR-Brochure.pdf"
+            >
+              <h1 className="border-b  mt-5 text-center p-2 cursor-pointer bg-green-600 hover:bg-green-700  rounded-sm text-white ">
+                DOWNLOAD BROCHURE
+              </h1>
             </a>
-          </div>
+          </Spin>
         </Paper>
       </Container>
     </div>
