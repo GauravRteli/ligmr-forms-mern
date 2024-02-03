@@ -41,6 +41,7 @@ const FormComponent = () => {
     careerFieldInterest: "",
     careerAspirations: "",
     admissionCounseling: "",
+    cv: null,
   });
   const [ipAddress, setIpAddress] = useState("");
   const [source, setSource] = useState("");
@@ -53,6 +54,21 @@ const FormComponent = () => {
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
+
+    if (type === "file") {
+      const file = event.target.files[0];
+
+      if (file && file.type === "application/pdf") {
+        setFormData({
+          ...formData,
+          [name]: file,
+          [name + "Name"]: file.name,
+        });
+      } else {
+        toast.error("Please select a PDF file for " + name + ".");
+        return;
+      }
+    }
 
     // Handle checkbox separately
     if (type === "checkbox") {
@@ -576,6 +592,32 @@ const FormComponent = () => {
                   <MenuItem value="Tomorrow">Tomorrow</MenuItem>
                 </Select>
               </FormControl>
+              <div className="flex flex-col mx-auto w-full h-full">
+                <label className="font-semibold text-sm">Cover Letter :</label>
+
+                <div class="file-input border">
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    name="cv"
+                    className="-px-1"
+                    onChange={handleChange}
+                  />
+                  <button
+                    type="button"
+                    className={`px-4 py-2 mx-2 rounded-sm ${
+                      formData.cv
+                        ? "bg-blue-900 text-white"
+                        : "bg-gray-300 text-black"
+                    }`}
+                  >
+                    {formData.cv ? "File Selected" : "Choose File"}
+                  </button>
+                  <span className="label" data-js-label>
+                    {formData.cv ? formData.cv : "No file selected"}
+                  </span>
+                </div>
+              </div>
             </div>
 
             <Button
