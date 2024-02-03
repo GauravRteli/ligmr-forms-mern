@@ -57,6 +57,12 @@ const FormComponent = () => {
 
     if (type === "file") {
       const file = event.target.files[0];
+      console.log(file);
+
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("Cover Letter must be less than 5 MB in size");
+        return;
+      }
 
       if (file && file.type === "application/pdf") {
         setFormData({
@@ -65,7 +71,7 @@ const FormComponent = () => {
           [name + "Name"]: file.name,
         });
       } else {
-        toast.error("Please select a PDF file for " + name + ".");
+        toast.error("Please select a PDF file for cover letter.");
         return;
       }
     }
@@ -84,12 +90,14 @@ const FormComponent = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Handle form submission logic here
-
     if (formData.phoneNo.length < 5) {
       toast.error("Please Enter phone valid number.");
       return;
     }
-
+    if (formData.cv.size > 5 * 1024 * 1024) {
+      toast.error("Cover Letter must be less than 5 MB in size");
+      return;
+    }
     if (formData.destinationPreferences.length === 0) {
       toast.error("At least one destination must be selected");
       return; // Prevent further processing if validation fails
@@ -605,7 +613,7 @@ const FormComponent = () => {
                   />
                   <button
                     type="button"
-                    className={`px-4 py-2 mx-2 rounded-sm ${
+                    className={`px-2 py-1 mx-1 rounded-sm ${
                       formData.cv
                         ? "bg-blue-900 text-white"
                         : "bg-gray-300 text-black"
