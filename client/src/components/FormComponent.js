@@ -111,15 +111,15 @@ const FormComponent = () => {
 
   const checkEmailorPhoneAlreadyExists = async () => {
     const { data } = await axios.post(
-      // "https://inquiry.egnioldigital.com/api/forms/applyForm",
-      "http://localhost:5001/api/forms/check-email-phone",
+      "https://inquiry.egnioldigital.com/api/forms/check-email-phone",
+      // "http://localhost:5001/api/forms/check-email-phone",
       {
         email: formData.email,
         phoneNo: formData.phoneNo,
       }
     );
-    if(!data.success){
-      toast.error(data.msg)
+    if (!data.success) {
+      toast.error(data.msg);
       return true;
     }
     return false;
@@ -141,8 +141,8 @@ const FormComponent = () => {
       return; // Prevent further processing if validation fails
     }
 
-    if(await checkEmailorPhoneAlreadyExists()){
-      return ;
+    if (await checkEmailorPhoneAlreadyExists()) {
+      return;
     }
 
     const resultString = formData.destinationPreferences.join(",");
@@ -154,8 +154,8 @@ const FormComponent = () => {
     setLoading(true);
 
     const { data } = await axios.post(
-      // "https://inquiry.egnioldigital.com/api/forms/applyForm",
-      "http://localhost:5001/api/forms/applyForm",
+      "https://inquiry.egnioldigital.com/api/forms/applyForm",
+      // "http://localhost:5001/api/forms/applyForm",
       formDataObject
     );
     if (data.success) {
@@ -683,7 +683,7 @@ const FormComponent = () => {
               variant="contained"
               color="primary"
               fullWidth
-              onClick = {handleSubmit}
+              onClick={handleSubmit}
               style={{ marginTop: "20px", padding: "10px" }}
               // disabled={loading}
             >
