@@ -41,7 +41,14 @@ const FormComponent = () => {
     careerFieldInterest: "",
     careerAspirations: "",
     admissionCounseling: "",
+    cv: null,
+    cvName: ""
   });
+
+  useEffect(() => {
+    console.log(formData);
+  }, [formData]);
+
   const [ipAddress, setIpAddress] = useState("");
   const [source, setSource] = useState("");
   const [phoneNumber, setPhoneNumber] = useState({
@@ -53,38 +60,79 @@ const FormComponent = () => {
 
   const handleChange = (event) => {
     const { name, value, type, checked } = event.target;
+    console.log(name);
+    if (type === "file") {
+      const file = event.target.files[0];
+      console.log(file);
 
-    // Handle checkbox separately
-    if (type === "checkbox") {
-      const updatedPreferences = checked
-        ? [...formData.destinationPreferences, name]
-        : formData.destinationPreferences.filter((pref) => pref !== name);
-      setFormData({ ...formData, destinationPreferences: updatedPreferences });
-    } else {
-      setFormData({ ...formData, [name]: value });
-    }
+      if (file.size > 5 * 1024 * 1024) {
+        toast.error("Cover Letter must be less than 5 MB in size");
+        return;
+      }
+
+      if (file && file.type === "application/pdf") {
+        console.log(file.name)
+        setFormData({
+          ...formData,
+          [name]: file,
+          [name + "Name"]: file.name,
+        });
+        return ;
+      } else {
+        toast.error("Please select a PDF file for cover letter.");
+        return;
+      }
+    } 
+      // Handle checkbox separately
+      if (type === "checkbox") {
+        const updatedPreferences = checked
+          ? [...formData.destinationPreferences, name]
+          : formData.destinationPreferences.filter((pref) => pref !== name);
+        setFormData({
+          ...formData,
+          destinationPreferences: updatedPreferences,
+        });
+      } else {
+        setFormData({ ...formData, [name]: value });
+      }
+    
   };
 
+  const createFormDataObject = (initialState) => {
+    const fdx = new FormData();
+    for (const [key, value] of Object.entries(initialState)) {
+      fdx.append(key, value);
+    }
+    return fdx;
+  };
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Handle form submission logic here
-
     if (formData.phoneNo.length < 5) {
       toast.error("Please Enter phone valid number.");
       return;
     }
-
+    if (formData.cv.size > 5 * 1024 * 1024) {
+      toast.error("Cover Letter must be less than 5 MB in size");
+      return;
+    }
     if (formData.destinationPreferences.length === 0) {
       toast.error("At least one destination must be selected");
       return; // Prevent further processing if validation fails
     }
 
+    const resultString = formData.destinationPreferences.join(',');
+    console.log(resultString);
+    const formDataObject = createFormDataObject({
+      ...formData,
+      destinationPreferences: resultString,
+    });
     setLoading(true);
 
     const { data } = await axios.post(
-      "https://inquiry.egnioldigital.com/api/forms/applyForm",
-      // "http://localhost:5001/api/forms/applyForm",
-      formData
+      // "https://inquiry.egnioldigital.com/api/forms/applyForm",
+      "http://localhost:5001/api/forms/applyForm",
+      formDataObject
     );
     if (data.success) {
       await addUserActivity("submitted");
@@ -579,6 +627,32 @@ const FormComponent = () => {
                   <MenuItem value="Tomorrow">Tomorrow</MenuItem>
                 </Select>
               </FormControl>
+              <div className="flex flex-col mx-auto w-full h-full">
+                <label className="font-semibold text-sm">Cover Letter :</label>
+
+                <div class="file-input border">
+                  <input
+                    type="file"
+                    accept=".pdf"
+                    name="cv"
+                    className="-px-1"
+                    onChange={handleChange}
+                  />
+                  <button
+                    type="button"
+                    className={`px-2 py-1 mx-1 rounded-sm ${
+                      formData.cvName
+                        ? "bg-blue-900 text-white"
+                        : "bg-gray-300 text-black"
+                    }`}
+                  >
+                    {formData.cv ? "File Selected" : "Choose File"}
+                  </button>
+                  <span className="label" data-js-label>
+                    {formData.cv ? formData.cvName : "No file selected"}
+                  </span>
+                </div>
+              </div>
             </div>
 
             <Button
