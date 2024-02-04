@@ -132,7 +132,8 @@ const FormComponent = () => {
       toast.error("Please Enter phone valid number.");
       return;
     }
-    if (formData.cv.size > 5 * 1024 * 1024) {
+
+    if (formData.cv && formData.cv.size > 5 * 1024 * 1024) {
       toast.error("Cover Letter must be less than 5 MB in size");
       return;
     }
