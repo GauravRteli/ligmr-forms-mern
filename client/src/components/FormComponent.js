@@ -22,8 +22,8 @@ import axios from "axios";
 const FormComponent = () => {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     phoneNo: "",
+    email: "",
     city: "",
     userType: "",
     fatherOccupation: "",
@@ -128,6 +128,38 @@ const FormComponent = () => {
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Handle form submission logic here
+
+    const requiredFields = [
+      "name",
+      "email",
+      "phoneNo",
+      "city",
+      "userType",
+      "fatherOccupation",
+      "qualification",
+      "course",
+      "fundingSource",
+      "budget",
+      "intake",
+      "experience",
+      "englishProficiency",
+      "appliedForFranceBefore",
+      "destinationPreferences",
+      "careerFieldInterest",
+      "careerAspirations",
+      "admissionCounseling",
+    ];
+
+    for (const key in requiredFields) {
+      if (formData[key] === "" || formData[key].length === 0) {
+        toast.error(
+          `Please fill in the ${key
+            .replace(/([a-z])([A-Z])/g, "$1 $2")
+            .toLowerCase()} field.`
+        );
+        return;
+      }
+    }
     if (formData.phoneNo.length < 5) {
       toast.error("Please Enter phone valid number.");
       return;
