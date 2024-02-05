@@ -22,8 +22,8 @@ import axios from "axios";
 const FormComponent = () => {
   const [formData, setFormData] = useState({
     name: "",
-    email: "",
     phoneNo: "",
+    email: "",
     city: "",
     userType: "",
     fatherOccupation: "",
@@ -108,20 +108,74 @@ const FormComponent = () => {
       setDownloading(false);
     }, 2000);
   };
+
+  const checkEmailorPhoneAlreadyExists = async () => {
+    const { data } = await axios.post(
+      "https://inquiry.egnioldigital.com/api/forms/check-email-phone",
+      // "http://localhost:5001/api/forms/check-email-phone",
+      {
+        email: formData.email,
+        phoneNo: formData.phoneNo,
+      }
+    );
+    if (!data.success) {
+      toast.error(data.msg);
+      return true;
+    }
+    return false;
+  };
+
   const handleSubmit = async (event) => {
     event.preventDefault();
     // Handle form submission logic here
+
+    const requiredFields = [
+      "name",
+      "email",
+      "phoneNo",
+      "city",
+      "userType",
+      "fatherOccupation",
+      "qualification",
+      "course",
+      "fundingSource",
+      "budget",
+      "intake",
+      "experience",
+      "englishProficiency",
+      "appliedForFranceBefore",
+      "destinationPreferences",
+      "careerFieldInterest",
+      "careerAspirations",
+      "admissionCounseling",
+    ];
+
+    for (const key in requiredFields) {
+      if (formData[key] === "" || formData[key].length === 0) {
+        toast.error(
+          `Please fill in the ${key
+            .replace(/([a-z])([A-Z])/g, "$1 $2")
+            .toLowerCase()} field.`
+        );
+        return;
+      }
+    }
     if (formData.phoneNo.length < 5) {
       toast.error("Please Enter phone valid number.");
       return;
     }
-    if (formData.cv.size > 5 * 1024 * 1024) {
+
+    if (formData.cv && formData.cv.size > 5 * 1024 * 1024) {
       toast.error("Cover Letter must be less than 5 MB in size");
       return;
     }
     if (formData.destinationPreferences.length === 0) {
       toast.error("At least one destination must be selected");
       return; // Prevent further processing if validation fails
+    }
+
+    if (await checkEmailorPhoneAlreadyExists()) {
+      return;
     }
 
     const resultString = formData.destinationPreferences.join(",");
@@ -133,8 +187,8 @@ const FormComponent = () => {
     setLoading(true);
 
     const { data } = await axios.post(
-      // "https://inquiry.egnioldigital.com/api/forms/applyForm",
-      "http://localhost:5001/api/forms/applyForm",
+      "https://inquiry.egnioldigital.com/api/forms/applyForm",
+      // "http://localhost:5001/api/forms/applyForm",
       formDataObject
     );
     if (data.success) {
@@ -223,7 +277,7 @@ const FormComponent = () => {
           <h1 className="font-semibold text-3xl text-orange-500 text-center m-5">
             Application Form
           </h1>
-          <form>
+          <form onSubmit={handleSubmit}>
             <div style={{ display: "flex", flexDirection: "column" }}>
               <div className="grid grid-cols-1 gap-x-4 md:grid-cols-2 items-center">
                 <TextField
@@ -662,9 +716,9 @@ const FormComponent = () => {
               variant="contained"
               color="primary"
               fullWidth
-              onClick = {handleSubmit}
+              onClick={handleSubmit}
               style={{ marginTop: "20px", padding: "10px" }}
-              disabled={loading}
+              // disabled={loading}
             >
               {/* Submit */}
               {loading ? (
