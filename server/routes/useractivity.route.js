@@ -70,12 +70,12 @@ router.get("/total_engagement", async (req, res) => {
 router.get("/unique_ip_count", async (req, res) => {
   try {
     const result = await dbQueryAsync(`
-        SELECT ip_address, COUNT(*) AS event_count
+        SELECT  COUNT(*) AS event_count
         FROM user_activity
         GROUP BY ip_address
       `);
 
-    res.json(result);
+    res.json(result[0]);
   } catch (error) {
     console.error("Error fetching data:", error);
     res.status(500).json({ error: "Internal Server Error" });

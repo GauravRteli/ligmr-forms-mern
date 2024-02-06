@@ -129,51 +129,86 @@ const FormComponent = () => {
     event.preventDefault();
     // Handle form submission logic here
 
-    const requiredFields = [
-      "name",
-      "email",
-      "phoneNo",
-      "city",
-      "userType",
-      "fatherOccupation",
-      "qualification",
-      "course",
-      "fundingSource",
-      "budget",
-      "intake",
-      "experience",
-      "englishProficiency",
-      "appliedForFranceBefore",
-      "destinationPreferences",
-      "careerFieldInterest",
-      "careerAspirations",
-      "admissionCounseling",
-    ];
-
-    for (const key in requiredFields) {
-      if (formData[key] === "" || formData[key].length === 0) {
-        toast.error(
-          `Please fill in the ${key
-            .replace(/([a-z])([A-Z])/g, "$1 $2")
-            .toLowerCase()} field.`
-        );
-        return;
-      }
+    if (formData.name.length === 0) {
+      toast.error("Please Fill in the Name field.");
+      return;
+    }
+    if (formData.phoneNo.length === 0) {
+      toast.error("Please Fill in the Phone Number field.");
+      return;
     }
     if (formData.phoneNo.length < 5) {
       toast.error("Please Enter phone valid number.");
       return;
     }
-
+    if (formData.email.length === 0) {
+      toast.error("Please Fill in the Email field.");
+      return;
+    }
+    if (formData.city.length === 0) {
+      toast.error("Please Fill in the city field.");
+      return;
+    }
+    if (formData.userType.length === 0) {
+      toast.error("Please Fill in the you are field.");
+      return;
+    }
+    if (formData.fatherOccupation.length === 0) {
+      toast.error("Please Fill in the FatherOccupation field.");
+      return;
+    }
+    if (formData.qualification.length === 0) {
+      toast.error("Please Fill in the Qualification field.");
+      return;
+    }
+    if (formData.course.length === 0) {
+      toast.error("Please Fill in the Course field.");
+      return;
+    }
+    if (formData.fundingSource.length === 0) {
+      toast.error("Please Fill in the FundingSource field.");
+      return;
+    }
+    if (formData.budget.length === 0) {
+      toast.error("Please Fill in the Budget field.");
+      return;
+    }
+    if (formData.intake.length === 0) {
+      toast.error("Please Fill in the Intake field.");
+      return;
+    }
+    if (formData.experience.length === 0) {
+      toast.error("Please Fill in the Experience field.");
+      return;
+    }
+    if (formData.englishProficiency.length === 0) {
+      toast.error("Please Fill in the EnglishProficiency field.");
+      return;
+    }
+    if (formData.appliedForFranceBefore.length === 0) {
+      toast.error("Please Fill in the AppliedForFranceBefore field.");
+      return;
+    }
+    if (formData.destinationPreferences.length === 0) {
+      toast.error("Please Fill in the Destination Preferences field.");
+      return;
+    }
+    if (formData.careerFieldInterest.length === 0) {
+      toast.error("Please Fill in the CareerFieldInterest field.");
+      return;
+    }
+    if (formData.careerAspirations.length === 0) {
+      toast.error("Please Fill in the CareerAspirations field.");
+      return;
+    }
+    if (formData.admissionCounseling.length === 0) {
+      toast.error("Please Fill in the AdmissionCounseling field.");
+      return;
+    }
     if (formData.cv && formData.cv.size > 5 * 1024 * 1024) {
       toast.error("Cover Letter must be less than 5 MB in size");
       return;
     }
-    if (formData.destinationPreferences.length === 0) {
-      toast.error("At least one destination must be selected");
-      return; // Prevent further processing if validation fails
-    }
-
     if (await checkEmailorPhoneAlreadyExists()) {
       return;
     }
