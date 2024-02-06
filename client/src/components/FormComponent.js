@@ -44,7 +44,8 @@ const FormComponent = () => {
   });
 
   const pdfUrl =
-    "https://github.com/GauravRteli/ligmr-forms-mern/files/14152345/LIGMR_brochure.pdf";
+    // "https://github.com/GauravRteli/ligmr-forms-mern/files/14152345/LIGMR_brochure.pdf";
+    "https://26ccdc96-ebfe-49d1-a39a-9dba4dcb7984.usrfiles.com/ugd/26ccdc_ffcf019cac9342e2bcca009385948fb4.pdf";
 
   const [downloading, setDownloading] = useState(false);
   const [ipAddress, setIpAddress] = useState("");
@@ -732,11 +733,10 @@ const FormComponent = () => {
                   />
                   <button
                     type="button"
-                    className={`px-2 py-1 mx-1 rounded-sm ${
-                      formData.cvName
-                        ? "bg-blue-900 text-white"
-                        : "bg-gray-300 text-black"
-                    }`}
+                    className={`px-2 py-1 mx-1 rounded-sm ${formData.cvName
+                      ? "bg-blue-900 text-white"
+                      : "bg-gray-300 text-black"
+                      }`}
                   >
                     {formData.cv ? "File Selected" : "Choose File"}
                   </button>
@@ -753,7 +753,7 @@ const FormComponent = () => {
               fullWidth
               onClick={handleSubmit}
               style={{ marginTop: "20px", padding: "10px" }}
-              // disabled={loading}
+            // disabled={loading}
             >
               {/* Submit */}
               {loading ? (
@@ -770,10 +770,10 @@ const FormComponent = () => {
             <a
               href={pdfUrl}
               onClick={handleDownload}
-              download="LIGMR-Brochure.pdf"
+              target="_blank"
             >
               <h1 className="border-b font-semibold mt-5 text-center p-2 cursor-pointer bg-green-600 hover:bg-green-700  rounded-sm text-white ">
-                DOWNLOAD BROCHURE
+                OPEN BROCHURE
               </h1>
             </a>
           </Spin>

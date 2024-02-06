@@ -75,7 +75,7 @@ const getPdfUrl = async (key) => {
       Bucket: "ligmrinquiryform",
       Key: key,
     }),
-    { expiresIn: 300 }
+    { expiresIn: 60000 }
   );
   return {
     success: true,
@@ -86,11 +86,8 @@ router.post("/getPdfURL", async (req, res) => {
   try {
     // uploads/inquiry-form/email/cv.pdf
     const { key } = req.body;
-    const url = await getPdfUrl(key);
-    return res.status(200).json({
-      success: true,
-      url,
-    });
+    const response = await getPdfUrl(key);
+    return res.status(200).json(response);
   } catch (error) {
     console.error("Error getting object URL:", error);
     res.status(500).json({ error: "Internal Server Error" });
